@@ -13,9 +13,9 @@
 
     @yield('content')
 
-    <!-- Back to Top -->
+    {{-- <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-    <!-- Javascript -->
+    <!-- Javascript --> --}}
 
         @yield('scripts')
         @include('frontend.scripts')

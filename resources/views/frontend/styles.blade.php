@@ -16,8 +16,8 @@
 
 
 <!-- Customized Bootstrap Stylesheet -->
-<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
 
 
 <!-- Template Stylesheet -->
-<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
+{{-- <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" /> --}}
