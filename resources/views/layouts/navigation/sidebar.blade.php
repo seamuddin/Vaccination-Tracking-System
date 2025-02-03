@@ -23,7 +23,7 @@
             </a>
         </li>
 
-        <!-- Category -->
+        {{-- <!-- Category -->
         @can('user')
             <li class="menu-item {{ Request::is('category') || Request::is('category/*') ? 'active' : '' }}">
                 <a href="{{ route('category.list') }}"  class="menu-link ">
@@ -31,29 +31,12 @@
                     <div> Category </div>
                 </a>
             </li>
-        @endcan
+        @endcan --}}
 
 
-        <!-- Committee -->
-        @can('user')
-            <li class="menu-item {{ Request::is('committee') || Request::is('committee/*') ? 'active' : '' }}">
-                <a href="{{ route('committee.list') }}" class="menu-link ">
-                    <i class="menu-icon tf-icons bx bxs-user-account"></i>
-                    <div> Committee </div>
-                </a>
-            </li>
-        @endcan
+      
 
 
-        <!-- Event -->
-        @can('user')
-            <li class="menu-item {{ Request::is('event') || Request::is('event/*') ? 'active' : '' }}">
-                <a href="{{ route('event.list') }}"  class="menu-link ">
-                    <i class="menu-icon tf-icons bx bx-calendar-event"></i>
-                    <div data-i18n="Event"> Event </div>
-                </a>
-            </li>
-        @endcan
 
 
         <!-- User -->
@@ -70,20 +53,6 @@
                         <div> Admin User </div>
                     </a>
                 </li>
-
-                <li class="menu-item {{ Request::segment(2)== 'instructor' ? 'active' : '' }}">
-                    <a href="{{ route('instructor.list') }}" class="menu-link">
-                        <i class="menu-icon tf-icons fas fa-user fa-fw"></i>
-                        <div> Instructor </div>
-                    </a>
-                </li>
-                <li class="menu-item {{ Request::segment(2)== 'student' ? 'active' : '' }}">
-                    <a href="{{ route('student.list') }}" class="menu-link">
-                        <i class="menu-icon tf-icons fas fa-user fa-fw"></i>
-                        <div> Student </div>
-                    </a>
-                </li>
-
             </ul>
         </li>
         @endcan

@@ -20,7 +20,7 @@
                     <a class="nav-link" href="#statistics">Statistics</a>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-primary ms-2">Sign In</button>
+                    <a href="{{ url('login') }}" class="btn btn-primary ms-2">Sign In</a>
                 </li>
             </ul>
         </div>

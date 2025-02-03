@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 d-none d-lg-block">
-                    <img src="/api/placeholder/600/400" alt="Vaccination illustration" class="img-fluid rounded-3 floating">
+                    <img src="{{ asset('assets/img/vaccine.png') }}" alt="Vaccination illustration" class="img-fluid rounded-3 floating">
                 </div>
             </div>
         </div>
