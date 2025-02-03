@@ -44,9 +44,6 @@
                                 <i class="fas fa-calendar-check"></i>
                             </div>
                             <h5 class="card-title h4 mb-3">Track Vaccinations</h5>
-                            <p class="card-text text-muted mb-4">Track your immunization schedule and receive notifications when your vaccinations are due.</p>
-
-                            <h5 class="card-title h4 mb-3">Track Vaccinations</h5>
                             <p class="card-text text-muted mb-4">Monitor your vaccination schedule and get timely reminders for upcoming doses.</p>
                             <a href="#" class="btn btn-outline-primary">Track Now</a>
                         </div>
