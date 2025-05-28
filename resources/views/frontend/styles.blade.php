@@ -7,7 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Saira:wght@500;600;700&display=swap" rel="stylesheet">
 
 <!-- Icon Font Stylesheet -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet"> --}}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <!-- Libraries Stylesheet -->
@@ -18,6 +20,5 @@
 <!-- Customized Bootstrap Stylesheet -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
 
-
 <!-- Template Stylesheet -->
-{{-- <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" /> --}}
+<link rel="stylesheet" href="{{ asset('assets/css/frontend.css') }}" />

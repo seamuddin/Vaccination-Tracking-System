@@ -1,20 +1,34 @@
-<!-- Navbar Start -->
-<div class="container-fluid fixed-top px-0  wow fadeIn" data-wow-delay="0.1s">
-    <div class="top-bar text-white-50 row gx-0 align-items-center d-none d-lg-flex">
-        <div class="col-lg-9 px-5 text-start">
-            <small class="me-2"><i class="fa fa-map-marker-alt me-3"></i>622, Raiyan Villa (2nd floor), Main Road, Kalur Dokan, Cox’s Bazar</small>
-            <small class=""><i class="fa fa-envelope me-2"></i>ssdfoundation23@gmail.com</small>
-        </div>
-        <div class="col-lg-3 px-5 text-end">
-            <small>Follow us:</small>
-            <a class="text-white-50 ms-3" href="https://www.facebook.com/ssdyouthfoundation/"><i class="fab fa-facebook-f"></i></a>
-{{--            <a class="text-white-50 ms-3" href=""><i class="fab fa-twitter"></i></a>--}}
-            <a class="text-white-50 ms-3" href="https://www.linkedin.com/company/ssd-youth-foundation/"><i class="fab fa-linkedin-in"></i></a>
-{{--            <a class="text-white-50 ms-3" href=""><i class="fab fa-instagram"></i></a>--}}
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand" href="#home">
+            <i class="fas fa-syringe me-2"></i>VaxTracker
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#home" aria-label="Go to home section">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about" aria-label="Learn about VaxTracker">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#schedule" aria-label="View vaccine schedule">Vaccine Schedule</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#centers" aria-label="Find vaccination centers">Find Centers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#faq" aria-label="Frequently asked questions">FAQ</a>
+                </li>
+            </ul>
+            <button class="btn btn-login" onclick="openLoginModal()" aria-label="Login or Register">
+                <i class="fas fa-user me-1"></i>Login/Register
+            </button>
         </div>
     </div>
-
-    @include('frontend.navigation.navbar')
-
-</div>
-<!-- Navbar End -->
+</nav>

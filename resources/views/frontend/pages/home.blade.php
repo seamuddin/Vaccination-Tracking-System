@@ -1,238 +1,223 @@
 @extends('frontend.index')
 @section('title')
-    Home
+    Track Your Child's Vaccinations Easily
 @endsection
 @section('styles')
-<style>
-    :root {
-        --primary-color: #4F46E5;
-        --secondary-color: #7C3AED;
-        --accent-color: #818CF8;
-        --background-light: #F5F3FF;
-        --text-primary: #1F2937;
-        --text-secondary: #4B5563;
-    }
-
-    body {
-        font-family: system-ui, -apple-system, sans-serif;
-    }
-
-    /* Smooth scroll behavior */
-    html {
-        scroll-behavior: smooth;
-    }
-
-    /* Modern gradient background for hero */
-    .hero-section {
-        background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
-        color: white;
-        position: relative;
-        overflow: hidden;
-        padding: 6rem 0;
-    }
-
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
-        opacity: 0.3;
-    }
-
-    .search-box {
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        border-radius: 1rem;
-        padding: 1.5rem;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    }
-
-    .search-box input {
-        background: rgba(255, 255, 255, 0.9);
-        border: none;
-        padding: 1rem 1.5rem;
-    }
-
-    .navbar {
-        background: rgba(255, 255, 255, 0.95) !important;
-        backdrop-filter: blur(10px);
-    }
-
-    .navbar-brand {
-        font-weight: 700;
-        font-size: 1.5rem;
-    }
-
-    .service-card {
-        border-radius: 1.5rem;
-        border: none;
-        background: white;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        transition: all 0.3s ease;
-        overflow: hidden;
-    }
-
-    .service-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-
-    .service-icon {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        border-radius: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        margin: 0 auto 1.5rem;
-        font-size: 1.5rem;
-        transform: rotate(10deg);
-        transition: transform 0.3s ease;
-    }
-
-    .service-card:hover .service-icon {
-        transform: rotate(0deg);
-    }
-
-    .stats-section {
-        background-color: var(--background-light);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .stats-card {
-        background: white;
-        border-radius: 1.5rem;
-        padding: 2rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-    }
-
-    .stats-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-
-    .schedule-timeline {
-        position: relative;
-        padding: 2rem;
-    }
-
-    .timeline-card {
-        border-radius: 1.5rem;
-        border: none;
-        background: white;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-    }
-
-    .timeline-card:hover {
-        transform: translateX(10px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-
-    .emergency-card {
-        border-radius: 1.5rem;
-        border: none;
-        background: white;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        position: relative;
-    }
-
-    .emergency-card::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 6px;
-        background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
-    }
-
-    .btn-primary {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        border: none;
-        padding: 0.8rem 2rem;
-        border-radius: 0.75rem;
-        transition: all 0.3s ease;
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-    }
-
-    .btn-outline-primary {
-        border: 2px solid var(--primary-color);
-        color: var(--primary-color);
-        padding: 0.8rem 2rem;
-        border-radius: 0.75rem;
-        transition: all 0.3s ease;
-    }
-
-    .btn-outline-primary:hover {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        border-color: transparent;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-    }
-
-    .section-title {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 3rem;
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-align: center;
-    }
-
-    /* Modern Footer */
-    .footer {
-        background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
-        color: white;
-        padding: 4rem 0;
-    }
-
-    /* Animation classes */
-    .fade-in {
-        animation: fadeIn 0.5s ease-in;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Floating animation for stats */
-    .floating {
-        animation: floating 3s ease-in-out infinite;
-    }
-
-    @keyframes floating {
-        0% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-        100% { transform: translateY(0px); }
-    }
-</style>
 @endsection
 
+
 @section('content')
-
-@include('frontend.partials.home.navbar')
-@include('frontend.partials.home.content')
-@include('frontend.partials.home.footer')
-
-
+    @include('frontend.partials.home.content')
 @endsection
 
 
 
 @section('scripts')
+    <!-- Bootstrap JS -->    
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 70; // Account for fixed navbar
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Navbar background opacity on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('mainNav');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'linear-gradient(135deg, rgba(79, 70, 229, 0.95), rgba(124, 58, 237, 0.95))';
+                navbar.style.backdropFilter = 'blur(10px)';
+            } else {
+                navbar.style.background = 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))';
+                navbar.style.backdropFilter = 'none';
+            }
+        });
+
+        // Search functionality
+        function searchCenters(event) {
+            event.preventDefault();
+            const location = document.getElementById('locationSearch').value;
+            const resultsDiv = document.getElementById('searchResults');
+            
+            // Show loading state
+            resultsDiv.innerHTML = `
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2 text-muted">Searching for vaccination centers near ${location}...</p>
+                </div>
+            `;
+            
+            // Simulate API call with timeout
+            setTimeout(() => {
+                const mockResults = [
+                    {
+                        name: "City Health Center",
+                        address: "123 Main St, " + location,
+                        distance: "0.5 miles",
+                        phone: "(555) 123-4567",
+                        hours: "Mon-Fri: 8AM-5PM",
+                        rating: "4.8",
+                        services: "Pediatric & Adult Vaccines"
+                    },
+                    {
+                        name: "Family Medical Clinic",
+                        address: "456 Oak Ave, " + location,
+                        distance: "1.2 miles",
+                        phone: "(555) 987-6543",
+                        hours: "Mon-Sat: 9AM-6PM",
+                        rating: "4.6",
+                        services: "Walk-ins Welcome"
+                    },
+                    {
+                        name: "Pediatric Care Center",
+                        address: "789 Pine Rd, " + location,
+                        distance: "2.1 miles",
+                        phone: "(555) 456-7890",
+                        hours: "Mon-Fri: 7AM-7PM",
+                        rating: "4.9",
+                        services: "Specialized Pediatric Care"
+                    }
+                ];
+
+                let resultsHTML = `<div class="row"><div class="col-12"><h4 class="mb-3">Found ${mockResults.length} vaccination centers near ${location}</h4></div></div>`;
+                
+                mockResults.forEach((center, index) => {
+                    resultsHTML += `
+                        <div class="result-card">
+                            <div class="result-header">
+                                <div>
+                                    <h5 class="result-title">${center.name}</h5>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="text-warning me-2">
+                                            ${'★'.repeat(Math.floor(parseFloat(center.rating)))}${'☆'.repeat(5-Math.floor(parseFloat(center.rating)))}
+                                        </div>
+                                        <span class="text-muted">${center.rating} (Reviews)</span>
+                                    </div>
+                                </div>
+                                <span class="result-distance">${center.distance}</span>
+                            </div>
+                            
+                            <div class="result-details">
+                                <div class="result-detail">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    ${center.address}
+                                </div>
+                                <div class="result-detail">
+                                    <i class="fas fa-phone"></i>
+                                    ${center.phone}
+                                </div>
+                                <div class="result-detail">
+                                    <i class="fas fa-clock"></i>
+                                    ${center.hours}
+                                </div>
+                                <div class="result-detail">
+                                    <i class="fas fa-syringe"></i>
+                                    ${center.services}
+                                </div>
+                            </div>
+                            
+                            <div class="result-actions">
+                                <button class="btn-book" onclick="bookAppointment('${center.name}')">
+                                    <i class="fas fa-calendar-plus me-1"></i>Book Appointment
+                                </button>
+                                <a href="#" class="btn-directions" onclick="getDirections('${center.address}')">
+                                    <i class="fas fa-directions me-1"></i>Get Directions
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                resultsDiv.innerHTML = resultsHTML;
+            }, 1500);
+        }
+
+        // Quick search functionality
+        function quickSearch(location) {
+            document.getElementById('locationSearch').value = location;
+            searchCenters({preventDefault: () => {}});
+        }
+
+        // Get directions function
+        function getDirections(address) {
+            alert(`Getting directions to ${address}. In a real application, this would open the map application.`);
+        }
+
+        // Book appointment function
+        function bookAppointment(centerName) {
+            alert(`Booking appointment at ${centerName}. In a real application, this would open the booking system.`);
+        }
+
+        // Login modal function
+        function openLoginModal() {
+            alert('Login/Registration system would open here. In a real application, this would show a proper authentication modal or redirect to the login page.');
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all milestone cards and feature items
+        document.addEventListener('DOMContentLoaded', function() {
+            const elementsToAnimate = document.querySelectorAll('.milestone-card, .feature-item, .testimonial-card');
+            elementsToAnimate.forEach(el => observer.observe(el));
+        });
+
+        // Keyboard accessibility improvements
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-navigation');
+        });
+
+        // FAQ Toggle Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const isActive = this.getAttribute('aria-expanded') === 'true';
+                    
+                    // Close all other FAQ items
+                    faqQuestions.forEach(q => {
+                        q.setAttribute('aria-expanded', 'false');
+                        const icon = q.querySelector('.faq-toggle i');
+                        icon.style.transform = 'rotate(0deg)';
+                    });
+                    
+                    // Toggle current item
+                    if (!isActive) {
+                        this.setAttribute('aria-expanded', 'true');
+                        const icon = this.querySelector('.faq-toggle i');
+                        icon.style.transform = 'rotate(45deg)';
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
