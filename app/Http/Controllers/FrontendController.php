@@ -89,6 +89,21 @@ class FrontendController extends Controller
     }
 
 
+    public function gurdianPortfolio()
+    {
+        try {
+           
+            return view('frontend.pages.gurdian-dashboard');
+        } catch (Exception $e) {
+            Log::error("Error occurred in FrontendController@gurdianPortfolio ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            return view('frontend.pages.gurdian-dashboard', ['error' => 'Unable to retrieve gurdianPortfolio data.']);
+        }
+    }
+
+
+
+
+
 
 
 }

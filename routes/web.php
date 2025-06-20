@@ -31,6 +31,8 @@ Route::get('/committee_page', [FrontendController::class, 'committeePage'])->nam
 Route::get('/committees/{committee_type_id}', [FrontendController::class, 'committeePageByType'])->name('committee_by_type');
 
 
+Route::get('/gurdian_portfolio', [FrontendController::class, 'gurdianPortfolio'])->name('gurdianPortfolio');
+
 
 
 Route::get( 'logout', array( LoginController::class, 'logout' ) )->name( 'logout' );
