@@ -26,9 +26,9 @@
                     <a class="nav-link" href="#faq" aria-label="Frequently asked questions">FAQ</a>
                 </li>
             </ul>
-            <button class="btn btn-login" onclick="openLoginModal()" aria-label="Login or Register">
+            <a class="btn btn-login" href="{{ route('login') }}" aria-label="Login or Register">
                 <i class="fas fa-user me-1"></i>Login/Register
-            </button>
+            </a>
         </div>
     </div>
 </nav>

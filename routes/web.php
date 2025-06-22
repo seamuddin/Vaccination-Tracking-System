@@ -20,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 // Route::group(function () {
     Route::get('login', [LoginController::class, 'login'])->name('login');
     Route::post('login-check', [LoginController::class, 'logincheck'])->name('login.check');
+
+    Route::get('register', [LoginController::class, 'register'])->name('register');
+    Route::post('register-store', [LoginController::class, 'registerStore'])->name('register.store');
+
 // });
 
 Route::get('/', [FrontendController::class, 'home'])->name('home');

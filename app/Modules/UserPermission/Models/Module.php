@@ -4,8 +4,10 @@ namespace App\Modules\UserPermission\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Modules\UserPermission\Models\permissions;
+use App\Modules\UserPermission\Models\Permission;
 use App\Modules\UserPermission\Models\Role;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 
 class Module extends Model
@@ -18,14 +20,16 @@ class Module extends Model
 
     //relationships
 
-    public function permissions(){
+    public function permissions():HasMany
+    {
         return $this->hasMany(Permission::class);
     }
 
-    public function roles(){
+    public function roles():BelongsToMany
+    {
         return $this->belongsToMany(Role::class);
     }
 
 
-    
+
 }

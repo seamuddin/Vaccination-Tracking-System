@@ -48,13 +48,13 @@ class UserPermissionController {
             //     'permissions' => 'required|array',
             //     'modules'     => 'required|array',
             // ));
-
+    
             $role_id = $request->get( 'role_id' );
             $role = Role::findOrFail( $role_id );
             $role->permissions()->sync( $request->permissions );
             $role->modules()->sync( $request->modules );
             Session::flash( 'success', 'Permission Update Successfully !' );
-            return redirect()->route( 'user_permission' )->with( 'status_color', 'success' );
+            return redirect()->route( 'user-permission' )->with( 'status_color', 'success' );
         } catch ( \Exception $e ) {
             Session::flash( 'error', "Something went wrong during application data load [User-101]" );
             return response()->json( array( 'error' => $e->getMessage() ), Response::HTTP_INTERNAL_SERVER_ERROR );

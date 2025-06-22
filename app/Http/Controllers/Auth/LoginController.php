@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Modules\User\Models\User;
 
 class LoginController extends Controller
 {
@@ -39,6 +40,30 @@ class LoginController extends Controller
             'email' => 'required|string',
             'password' => 'required|string',
         ]);
+    }
+
+    public function register()
+    {
+        return view('auth.register');
+    }
+
+    public function registerStore(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $data['password'] = bcrypt($data['password']);
+        $data['role_id'] = 4;
+        $data['user_type'] = 'general';
+
+        // dd($data);
+        // Assuming you have a User model
+        User::create($data);
+
+        return redirect()->route('login')->with('success', 'Registration successful. You can now log in.');
     }
 
     public function logout(Request $request)

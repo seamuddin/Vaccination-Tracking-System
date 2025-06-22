@@ -34,6 +34,7 @@ class RoleSeeder extends Seeder
         $admin_role->modules()->sync($admin_modules->pluck('id'));
 
         Role::updateOrCreate(['title' => 'Admin', 'slug' => 'admin', 'deletable' => false]);
-        Role::updateOrCreate(['title' => 'Manager', 'slug' => 'manager', 'deletable' => false]);
+        Role::updateOrCreate(['title' => 'Health Worker', 'slug' => 'health-worker', 'deletable' => false]);
+        Role::updateOrCreate(['title' => 'Parent/Guardian', 'slug' => 'parent', 'deletable' => false]);
     }
 }

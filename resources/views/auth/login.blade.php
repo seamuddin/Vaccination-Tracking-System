@@ -18,9 +18,12 @@
 {{--                                    <img src="{{ asset('assets/img/icons/logo.png') }}" alt="" height="" width="260">--}}
 {{--                                </span>--}}
                                 <a href="" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-                                    <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Charity</h2>
+                                    <h2 class="m-0 text-primary"><i class="fas fa-syringe me-2"></i>VaxTracker</h2>
                                 </a>
                             </a>
+
+{{--                                </span>--}}
+
                         </div>
                         <!-- /Logo -->
 
@@ -62,12 +65,12 @@
                         </div>
                         {!! form::close() !!}
 
-                        {{--                        <p class="text-center">--}}
-                        {{--                            <span>New on our platform?</span>--}}
-                        {{--                            <a href="{{ url('signup') }}}">--}}
-                        {{--                            <span>Create an account</span>--}}
-                        {{--                            </a>--}}
-                        {{--                        </p>--}}
+                                        <p class="text-center">
+                                                  <span>New on our platform?</span>
+                                                    <a href="{{ url('register') }}">
+                                                    <span>Create an account</span>
+                                                    </a>
+                                                </p>
                     </div>
                 </div>
                 <!-- /Login -->

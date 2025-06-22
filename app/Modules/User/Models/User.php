@@ -14,6 +14,14 @@ class User extends Authenticatable
     // use HasFactory;
     use ModelLifeCycleTrait;
 
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role_id',
+        'user_type',
+    ];
+
     public function hasPermission($permission): bool
     {
         return $this->role->permissions()->where('slug', $permission)->first() ? true : false;

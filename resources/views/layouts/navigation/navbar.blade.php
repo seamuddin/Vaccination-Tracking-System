@@ -37,9 +37,10 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img
-                                            src="{{ !empty(Auth::user()->image) ? url(Auth::user()->image) : url('images/default.png') }}"
+                                        <img src="{{ !empty(Auth::user()->image) ? url(Auth::user()->image) : url('images/default.png') }}"
                                             alt class="w-px-40 h-auto rounded-circle"/>
+
+                                            
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">

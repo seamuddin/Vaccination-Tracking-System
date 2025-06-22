@@ -21,7 +21,8 @@ return new class extends Migration
         });
 
         DB::table('user_types')->insert([
-            ['type_id' => '1001', 'code' => 'admin', 'name' => 'Admin', 'order' => 0],
+            ['type_id' => 'A-1001', 'code' => 'admin', 'name' => 'Admin', 'order' => 0],
+            ['type_id' => 'G-2002', 'code' => 'general', 'name' => 'General', 'order' => 1],
         ]);
     }
 

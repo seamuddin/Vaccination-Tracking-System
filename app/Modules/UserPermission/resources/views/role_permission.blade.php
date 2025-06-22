@@ -15,7 +15,7 @@
                 </div>
             </div>
             {!! Form::open([
-            'route' => 'user_permission.store',
+            'route' => 'user-permission.store',
             'method' => 'post',
             'id' => 'form_id',
             'enctype' => 'multipart/form-data',
