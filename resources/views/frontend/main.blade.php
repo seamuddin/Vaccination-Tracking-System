@@ -21,6 +21,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('frontend/img/favicon.ico') }}" />
 
     <!-- Fonts -->
+    
     <link rel="stylesheet" href="{{ asset('assets/css/public-sans.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/boxicons.css') }}" />
       <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
@@ -36,6 +37,8 @@
 
     <!-- Page CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-auth.css') }}" />
+
+    @yield('styles')
 
     <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
@@ -74,5 +77,20 @@
     <!-- Page JS -->
     <!-- Place this tag in your head or just before your close body tag. -->
 <!--    <script async defer src="https://buttons.github.io/buttons.js"></script>-->
+
+   
+    <!-- Page JS -->
+    <script src="{{ asset('assets/js/pages-auth.js') }}"></script>
+
+    <!-- Custom JS -->
+    <script>
+        // Custom JavaScript for the page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Custom JavaScript loaded.');
+        });
+    </script>
+
+     @yield('scripts')
+
   </body>
 </html>

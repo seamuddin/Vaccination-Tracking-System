@@ -1,4 +1,27 @@
 @charset "UTF-8";
+:root {
+            --primary-color: #4F46E5;
+            --secondary-color: #7C3AED;
+            --accent-color: #818CF8;
+            --background-light: #F5F3FF;
+            --text-primary: #1F2937;
+            --text-secondary: #4B5563;
+            --primary-hover: #4338CA;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --danger-color: #EF4444;
+            --soft-gray: #F8F9FA;
+            --border-light: #E5E7EB;
+            --white: #FFFFFF;
+        }
+ body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            min-height: 100vh;
+        }
+
 .authentication-wrapper {
   display: flex;
   flex-basis: 100%;
@@ -20,7 +43,7 @@
   height: 100vh;
 }
 .authentication-wrapper.authentication-basic .authentication-inner {
-  max-width: 400px;
+
   position: relative;
 }
 .authentication-wrapper.authentication-basic .authentication-inner:before {
