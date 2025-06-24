@@ -23,19 +23,28 @@
             </a>
         </li>
 
-        {{-- <!-- Category -->
-        @can('user')
-            <li class="menu-item {{ Request::is('category') || Request::is('category/*') ? 'active' : '' }}">
-                <a href="{{ route('category.list') }}"  class="menu-link ">
-                    <i class="menu-icon tf-icons bx bx-category-alt"></i>
-                    <div> Category </div>
+
+         <!-- Child -->
+         @can('child')
+            <li class="menu-item {{ Request::is('child') || Request::is('child/*') ? 'active' : '' }}">
+                <a href="{{ route('child.list') }}" class="menu-link ">
+                    <i class="menu-icon tf-icons fas fa-child"></i>
+                    <div data-i18n="Child"> Child </div>
                 </a>
             </li>
-        @endcan --}}
+        @endcan
 
 
+        <!-- Vaccine -->
+        @can('vaccine')
+            <li class="menu-item {{ Request::is('vaccine') || Request::is('vaccine/*') ? 'active' : '' }}">
+                <a href="{{ route('vaccine.list') }}" class="menu-link ">
+                    <i class="menu-icon tf-icons fas fa-syringe"></i>
+                    <div data-i18n="Vaccine"> Vaccine </div>
+                </a>
+            </li>
+        @endcan
 
-      
 
 
 

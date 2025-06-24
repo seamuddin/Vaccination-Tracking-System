@@ -1,0 +1,29 @@
+
+🧠 Recommended Approach for Your System:
+Health Workers Register Child
+Health workers add a new child profile after birth or during the first vaccine visit.
+They enter the parent/guardian contact details (email, phone) to create the parent account automatically.
+A notification or login link is sent to the parent.
+
+
+Guardian View-Only Role
+Parent cannot add new child profiles themselves to prevent duplicate or incorrect entries.
+Parent can view all registered children under their account, see schedules, download reports.
+
+
+Optional Parent Request Feature
+Parent can submit a “Request to Register Child” if they don’t see their child in the system.
+Health worker can review and approve that request.
+
+
+
+🎯 ✅ Summary
+Admin Role
+Manage list of vaccines & schedules.
+
+Health Worker Role
+Record administered doses.
+Track upcoming/overdue vaccines.
+
+Parent Role
+View read-only record and receive reminders.

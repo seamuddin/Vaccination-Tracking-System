@@ -41,52 +41,53 @@ class PermissionSeeder extends Seeder
              'slug' => 'app.users.destroy',
          ]);
 
-        // Committee
-        $moduleAppCommittee = Module::updateOrCreate(['title' => 'Committee', 'slug'=>Str::slug('committee')]);
-        Permission::updateOrCreate([
-            'module_id' => $moduleAppCommittee->id,
-            'title' => 'Access Committee',
-            'slug' => 'app.committee.index',
-        ]);
-        Permission::updateOrCreate([
-            'module_id' => $moduleAppCommittee->id,
-            'title' => 'Create Committee',
-            'slug' => 'app.committee.create',
-        ]);
-        Permission::updateOrCreate([
-            'module_id' => $moduleAppCommittee->id,
-            'title' => 'Edit Committee',
-            'slug' => 'app.committee.edit',
-        ]);
-        Permission::updateOrCreate([
-            'module_id' => $moduleAppCommittee->id,
-            'title' => 'Delete Committee',
-            'slug' => 'app.committee.destroy',
-        ]);
 
-         // Event
-         $moduleAppEvent = Module::updateOrCreate(['title' => 'Event', 'slug'=>Str::slug('event')]);
+         $moduleAppChild = Module::updateOrCreate(['title' => 'Child', 'slug'=>Str::slug('child')]);
          Permission::updateOrCreate([
-             'module_id' => $moduleAppEvent->id,
-             'title' => 'Access Event',
-             'slug' => 'app.event.index',
+             'module_id' => $moduleAppChild->id,
+             'title' => 'Access Child',
+             'slug' => 'app.child.index',
          ]);
          Permission::updateOrCreate([
-             'module_id' => $moduleAppEvent->id,
-             'title' => 'Create Event',
-             'slug' => 'app.event.create',
+             'module_id' => $moduleAppChild->id,
+             'title' => 'Create Child',
+             'slug' => 'app.child.create',
          ]);
          Permission::updateOrCreate([
-             'module_id' => $moduleAppEvent->id,
-             'title' => 'Edit Event',
-             'slug' => 'app.event.edit',
+             'module_id' => $moduleAppChild->id,
+             'title' => 'Edit Child',
+             'slug' => 'app.child.edit',
          ]);
          Permission::updateOrCreate([
-             'module_id' => $moduleAppEvent->id,
-             'title' => 'Delete Event',
-             'slug' => 'app.event.destroy',
+             'module_id' => $moduleAppChild->id,
+             'title' => 'Delete Child',
+             'slug' => 'app.child.destroy',
          ]);
 
+
+         $moduleAppVaccine = Module::updateOrCreate(['title' => 'Vaccine', 'slug'=>Str::slug('vaccine')]);
+         Permission::updateOrCreate([
+             'module_id' => $moduleAppVaccine->id,
+             'title' => 'Access Vaccine',
+             'slug' => 'app.vaccine.index',
+         ]);
+         Permission::updateOrCreate([
+             'module_id' => $moduleAppVaccine->id,
+             'title' => 'Create Vaccine',
+             'slug' => 'app.vaccine.create',
+         ]);
+         Permission::updateOrCreate([
+             'module_id' => $moduleAppVaccine->id,
+             'title' => 'Edit Vaccine',
+             'slug' => 'app.vaccine.edit',
+         ]);
+         Permission::updateOrCreate([
+             'module_id' => $moduleAppVaccine->id,
+             'title' => 'Delete Vaccine',
+             'slug' => 'app.vaccine.destroy',
+         ]);
+
+        
 
         // User Permission
         $moduleAppUserPermission = Module::updateOrCreate(['title' => 'User Permission', 'slug'=>Str::slug('user_permission')]);
