@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
-// use App\Modules\Committee\Models\CommitteeType;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Auth;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production')) {
             URL::forceScheme('https');
         }
+
+        View::composer('*', function ($view) {
+            $view->with('user', Auth::user());
+        });
 
         // view()->share('committeeTypes', CommitteeType::all());
     }
