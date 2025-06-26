@@ -1,6 +1,7 @@
 <?php
 
 use App\Modules\Vaccine\Http\Controllers\VaccineController;
+use Illuminate\Support\Facades\Route;
 
 Route::group(['Module' => 'Vaccine', 'middleware' => ['auth']], function () {
     Route::prefix('vaccine')->group(function () {

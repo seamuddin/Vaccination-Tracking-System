@@ -55,7 +55,7 @@
                 serverSide: true,
                 "ordering": true,
                 ajax: {
-                    url: '{{ route('vaccine.list') }}',
+                    url: "{{ route('vaccine.list') }}",
                     method: 'post',
                     data: function (d) {
                         d._token = $('input[name="_token"]').val();
