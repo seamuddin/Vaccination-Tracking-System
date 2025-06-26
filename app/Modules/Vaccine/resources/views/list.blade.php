@@ -14,8 +14,6 @@
                         <a href="{{ route('vaccine.create') }}" class="btn btn-sm btn-primary">
                             <i class="bx bx-plus pr-2"></i> Add Vaccine
                         </a>
-                        <p>Current environment: {{ app()->environment() }}</p>
-
                     </div>
                 </div>
 
