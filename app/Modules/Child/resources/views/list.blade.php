@@ -56,7 +56,7 @@
                 serverSide: true,
                 "ordering": true,
                 ajax: {
-                    url: '{{ route('child.list') }}',
+                    url: '{{ url('child.list') }}',
                     method: 'post',
                     data: function (d) {
                         d._token = $('input[name="_token"]').val();
