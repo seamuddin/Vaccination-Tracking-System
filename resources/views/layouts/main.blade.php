@@ -28,7 +28,6 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/theme-default.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}"/>
 {{--    <link rel="stylesheet" href="{{ asset('plugins/bootstrap/css/bootstrap4.min.css') }}"/>--}}
 
     <!-- Vendors CSS -->
