@@ -37,21 +37,21 @@ class userSeeder extends Seeder
         ]);
 
         // Create manager user
-        $manager = User::where('email', 'manager@gmail.com')->first();
+        // $manager = User::where('email', 'manager@gmail.com')->first();
 
-        if ($manager) {
-            // Delete the existing manager user
-            $manager->delete();
-        }
+        // if ($manager) {
+        //     // Delete the existing manager user
+        //     $manager->delete();
+        // }
 
-        // Create manager user
-        User::updateOrCreate([
-            'user_type' => 'M-1001',
-            'name' => 'Manager',
-            'email' => 'manager@gmail.com',
-            'password' => Hash::make('manager123'), // Again, consider using a more secure password
-            'role_id' => Role::where('slug', 'manager')->first()->id,
-            'status' => true
-        ]);
+        // // Create manager user
+        // User::updateOrCreate([
+        //     'user_type' => 'M-1001',
+        //     'name' => 'Manager',
+        //     'email' => 'manager@gmail.com',
+        //     'password' => Hash::make('manager123'), // Again, consider using a more secure password
+        //     'role_id' => Role::where('slug', 'manager')->first()->id,
+        //     'status' => true
+        // ]);
     }
 }

@@ -64,6 +64,39 @@
                         </div>
             </div>
         </div>
+
+        <div class="row">
+           <!-- Quick Actions -->
+            <div class="col-12 order-1 mb-4">
+                <div class="card h-100 ">
+                    <div class="card-header">
+                        <h5 class="m-0">Quick Actions</h5>
+                    </div>
+                    <div class="card-body pt-3">
+                        <div class="row g-3">
+                            <div class="col-md-4 col-12">
+                                <button class="btn btn-outline-primary p-4 w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="registerNewChild()">
+                                    <i class="fas fa-user-plus fa-2x mb-2"></i>
+                                    <span>Register New Child</span>
+                                </button>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <button class="btn btn-outline-success p-4 w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="quickVaccination()">
+                                    <i class="fas fa-syringe fa-2x mb-2"></i>
+                                    <span>Quick Vaccination</span>
+                                </button>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <button class="btn btn-outline-info p-4 w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="viewReports()">
+                                    <i class="fas fa-chart-bar fa-2x mb-2"></i>
+                                    <span>View Reports</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
        
        
         <div class="row">
@@ -104,7 +137,7 @@
                                     <i class="fas fa-child"></i>
                                 </div>
                                 <div class="stat-number">89</div>
-                                <div class="stat-label">Children Seen</div>
+                                <div class="stat-label">Children</div>
                                 <div class="stat-change positive">
                                     <i class="fas fa-arrow-up"></i> +15.3%
                                 </div>
@@ -251,7 +284,7 @@
         <!-- Recent Activity & Quick Actions -->
         <div class="row">
             <!-- Recent Activity -->
-            <div class="col-md-6 col-lg-6 order-0 mb-4">
+            <div class="col-md-12 col-lg-12 order-0 mb-4">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <h5 class="m-0">Recent Activity</h5>
@@ -329,58 +362,7 @@
                 </div>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="col-md-6 col-lg-6 order-1 mb-4">
-                <div class="card h-100 ">
-                    <div class="card-header">
-                        <h5 class="m-0">Quick Actions</h5>
-                    </div>
-                    <div class="card-body pt-3">
-                        <div class="row g-3">
-                            <div class="col-6">
-                                <button class="btn btn-outline-primary w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="registerNewChild()">
-                                    <i class="fas fa-user-plus fa-2x mb-2"></i>
-                                    <span>Register New Child</span>
-                                </button>
-                            </div>
-                            <div class="col-6">
-                                <button class="btn btn-outline-success w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="quickVaccination()">
-                                    <i class="fas fa-syringe fa-2x mb-2"></i>
-                                    <span>Quick Vaccination</span>
-                                </button>
-                            </div>
-                            <div class="col-6">
-                                <button class="btn btn-outline-info w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="viewReports()">
-                                    <i class="fas fa-chart-bar fa-2x mb-2"></i>
-                                    <span>View Reports</span>
-                                </button>
-                            </div>
-                            <div class="col-6">
-                                <button class="btn btn-outline-warning w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="searchChild()">
-                                    <i class="fas fa-search fa-2x mb-2"></i>
-                                    <span>Search Child</span>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Bulk Actions -->
-                        <div class="mt-4 pt-3 border-top">
-                            <h6 class="mb-3">Bulk Operations</h6>
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-outline-secondary" onclick="bulkUpdateRecords()">
-                                    <i class="fas fa-edit me-2"></i>Bulk Update Records
-                                </button>
-                                <button class="btn btn-outline-secondary" onclick="generateReports()">
-                                    <i class="fas fa-file-export me-2"></i>Generate Batch Reports
-                                </button>
-                                <button class="btn btn-outline-secondary" onclick="sendReminders()">
-                                    <i class="fas fa-paper-plane me-2"></i>Send Reminder Notifications
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
 

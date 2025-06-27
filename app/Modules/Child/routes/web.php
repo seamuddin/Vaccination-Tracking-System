@@ -8,5 +8,6 @@ Route::group(['Module' => 'Child', 'middleware' => ['auth']], function () {
         Route::get('create', [ChildControllers::class, 'create'])->name('child.create');
         Route::post('store', [ChildControllers::class, 'store'])->name('child.store');
         Route::get('edit/{id}', [ChildControllers::class, 'edit'])->name('child.edit');
+        Route::match(['get', 'post'], 'records/{id}', [ChildControllers::class, 'records'])->name('child.records');
     });
 });

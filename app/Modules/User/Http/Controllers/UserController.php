@@ -25,11 +25,17 @@ class UserController
     {
         try {
             if ($request->ajax() && $request->isMethod('post')) {
-                $list = User::select('id', 'name', 'email', 'updated_at', 'updated_by')->where('user_type','admin')->with('updatedByUser')->orderBy('id')->get();
+                $list = User::select('id', 'name', 'email', 'updated_at', 'updated_by', 'role_id')
+                    ->where('user_type', '!=', 1)
+                    ->with(['updatedByUser', 'role'])
+                    ->orderBy('id')
+                    ->get();
                 return Datatables::of($list)->editColumn('name', function ($list) {
                         return $list->name ?? '';
                     })->editColumn('email', function ($list) {
                         return $list->email;
+                    })->editColumn('user_type', function ($list) {
+                        return $list->role->title;
                     })->editColumn('updated_at', function ($row) {
                         return CommonFunction::formatLastUpdatedTime($row->updated_at);
                     })->editColumn('updated_by', function ($row) {

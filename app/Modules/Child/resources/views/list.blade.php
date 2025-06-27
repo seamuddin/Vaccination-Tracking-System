@@ -26,9 +26,10 @@
                                 <th>Name</th>
                                 <th>Date of Birth</th>
                                 <th>Gender</th>
-                                <th>Parent/Guardian</th>
-                                <th>Contact Number</th>
+                                <th>Parent Name</th>
+                                <th>Parent Number</th>
                                 <th>Vaccination Status</th>
+                                <th>Vaccination Records</th>
                                 <th>Last Updated</th>
                                 <th>Action</th>
                             </tr>
@@ -95,6 +96,12 @@
                                 return '<span class="badge bg-danger">Not Started</span>';
                             }
                         }
+                    },
+                    {
+                        data: 'vaccination_records',
+                        name: 'vaccination_records',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'updated_at',

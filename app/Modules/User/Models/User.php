@@ -9,6 +9,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Traits\ModelLifeCycleTrait;
+use App\Modules\User\Models\UserType;
+
+
 class User extends Authenticatable
 {
     // use HasFactory;
@@ -41,4 +44,8 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'updated_by');
     }
 
+    public function userType()
+    {
+        return $this->belongsTo(Role::class, 'user_type');
+    }
 }

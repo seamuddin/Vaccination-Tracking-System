@@ -3,6 +3,7 @@
 namespace App\Modules\Child\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreChildRequest extends FormRequest
 {
@@ -23,19 +24,22 @@ class StoreChildRequest extends FormRequest
      */
     public function rules()
     {
+         $childId = $this->input('id');  // assuming route parameter is {child}
+
         return [
-            'name' => 'required|string|max:255',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('children')
+                    ->where(function ($query) {
+                        return $query->where('parent_id', $this->input('parent_id'));
+                    })
+                    ->ignore($childId),
+            ],
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:male,female,other',
             'parent_id' => 'required|exists:users,id',
-            // 'blood_group' => 'nullable|string|max:10',
-            // 'birth_certificate_no' => 'nullable|string|max:50|unique:children,birth_certificate_no',
-            // 'address' => 'nullable|string|max:500',
-            // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            // 'medical_history' => 'nullable|string',
-            // 'allergies' => 'nullable|string',
-            // 'weight' => 'nullable|numeric|min:0',
-            // 'height' => 'nullable|numeric|min:0',
         ];
     }
 
@@ -48,6 +52,7 @@ class StoreChildRequest extends FormRequest
     {
         return [
             'name.required' => 'The child name is required',
+            'name.unique' => 'This child name already exists for the selected parent.',
             'date_of_birth.required' => 'Date of birth is required',
             'date_of_birth.date' => 'Date of birth must be a valid date',
             'gender.required' => 'Gender is required',

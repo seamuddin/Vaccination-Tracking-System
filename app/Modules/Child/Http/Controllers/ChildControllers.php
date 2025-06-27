@@ -10,6 +10,10 @@ use App\Modules\Child\Http\Requests\StoreChildRequest;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use App\Libraries\CommonFunction;
+use Illuminate\Support\Facades\DB;
+use App\Modules\Vaccine\Models\Vaccine;
+use App\Modules\Vaccine\Models\VaccinationRecord;
+use Carbon\Carbon;
 
 
 
@@ -45,10 +49,13 @@ class ChildControllers extends Controller
                     ->editColumn('updated_at', function ($child) {
                         return CommonFunction::formatLastUpdatedTime($child->updated_at);
                     })
+                    ->addColumn('vaccination_records', function ($child) {
+                        return '<a href="' . \URL::to('child/records/' . $child->id . '/') . '" class="btn btn-sm btn-primary text-center"><i class="fas fa-window-restore"></i></a>';
+                    })
                     ->addColumn('action', function ($child) {
                         return '<a href="' . \URL::to('child/edit/' . $child->id . '/') . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['action','vaccination_records'])
                     ->make(true);
             }
             return view("Child::list");
@@ -71,38 +78,60 @@ class ChildControllers extends Controller
     {
         try {
             $update = false;
-            // dd($request->all());
-            // Fetch parent (user) info
-            $parent = User::findOrFail($request->get('parent_id'));
 
-            if ($request->get('id')) {
-                $child = Child::findOrFail($request->get('id'));
-                $update = true;
-                
-            } else {
-                $child = new Child();
-            }
+            DB::transaction(function () use ($request, &$update) {
+                // Fetch parent (user) info
+                $parent = User::findOrFail($request->get('parent_id'));
 
-            $child->name = $request->get('name');
-            $child->date_of_birth = $request->get('date_of_birth');
-            $child->gender = $request->get('gender');
-            $child->user_id = $parent->id; // Save parent_id as user_id in child table
-            $child->guardian_name = $parent->name; // Get guardian name from user
-            $child->guardian_contact = $request->get('parent_contact');; // Get contact from user, fallback to null
-            
-            $child->save();
-            if ($update) {
-                Session::flash('success',"Child updated successfully");
-            } else {
-                Session::flash('success',"Child created successfully");
-            }
+                if ($request->get('id')) {
+                    $child = Child::findOrFail($request->get('id'));
+                    $update = true;
+                } else {
+                    $child = new Child();
+                }
+
+                $child->name = $request->get('name');
+                $child->date_of_birth = $request->get('date_of_birth');
+                $child->gender = $request->get('gender');
+                $child->parent_id = $parent->id;
+                $child->guardian_name = $parent->name;
+                $child->guardian_contact = $request->get('parent_contact');
+                $child->save();
+
+                // ✅ Add vaccination records if new child
+                if (!$update) {
+                    $vaccines = Vaccine::all();
+                    $birthDate = Carbon::parse($child->date_of_birth);
+
+                    foreach ($vaccines as $vaccine) {
+                        for ($dose = 1; $dose <= $vaccine->number_of_doses; $dose++) {
+                            $dueDate = $birthDate->copy()->addDays(
+                                $vaccine->age_due_days + ($vaccine->dose_interval_days * ($dose - 1))
+                            );
+
+                            VaccinationRecord::create([
+                                'child_id' => $child->id,
+                                'vaccine_id' => $vaccine->id,
+                                'dose_number' => $dose,
+                                'next_due_date' => $dueDate,
+                                'status' => 'scheduled',
+                                'health_worker_id' => auth()->id(),
+                            ]);
+                        }
+                    }
+                }
+            });
+
+            Session::flash('success', $update ? "Child updated successfully" : "Child created successfully");
             return redirect()->route('child.list');
+
         } catch (\Exception $e) {
             Log::error("Error occurred in ChildController@store ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
             Session::flash('error', "Something went wrong during child data store [Child-103]");
             return redirect()->back()->withInput();
         }
     }
+
 
     public function show(Child $child)
     {
@@ -128,6 +157,45 @@ class ChildControllers extends Controller
 
         $child->update($request->all());
         return redirect()->route('children.index')->with('success', 'Child updated successfully.');
+    }
+
+
+    public function records(Request $request, $childId)
+    {
+        try {
+            if ($request->ajax() && $request->isMethod('post')) {
+                $records = VaccinationRecord::with(['vaccine', 'healthWorker'])
+                    ->where('child_id', $childId)
+                    ->orderBy('next_due_date')
+                    ->get();
+
+                return \DataTables::of($records)
+                    ->addColumn('vaccine_name', function ($record) {
+                        return $record->vaccine->name ?? '';
+                    })
+                    ->addColumn('dose_number', function ($record) {
+                        return $record->dose_number;
+                    })
+                    ->addColumn('next_due_date', function ($record) {
+                        return $record->next_due_date ? Carbon::parse($record->next_due_date)->format('Y-m-d') : '';
+                    })
+                    ->addColumn('status', function ($record) {
+                        return ucfirst($record->status);
+                    })
+                    ->addColumn('health_worker', function ($record) {
+                        return $record->healthWorker->name ?? '';
+                    })
+                    ->rawColumns(['vaccine_name', 'status'])
+                    ->make(true);
+            }
+
+            $child = Child::findOrFail($childId);
+            return view('Child::vaccines', compact('child'));
+        } catch (\Exception $e) {
+            \Log::error("Error occurred in ChildController@records ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            \Session::flash('error', "Something went wrong during vaccination records load [Child-201]");
+            return response()->json(['error' => $e->getMessage()], \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

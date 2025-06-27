@@ -9,7 +9,7 @@
         <div class="col-md-12 p-5 pt-3">
             <div class="card card-outline card-primary">
                 <div class="card-header">
-                    <h3 class="card-title pt-2 pb-2"> Admin User List </h3>
+                    <h3 class="card-title pt-2 pb-2"> User List </h3>
                     <div class="card-tools">
                         <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary">
                             <i class="bx bx-plus pr-2"></i> Add User
@@ -25,6 +25,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>User Type</th>
                                 <th>Last Updated</th>
                                 <th>Updated By</th>
                                 <th>Action</th>
@@ -67,6 +68,10 @@
                     {
                         data: 'email',
                         name: 'email'
+                    },
+                    {
+                        data: 'user_type',
+                        name: 'user_type'
                     },
                     {
                         data: 'updated_at',

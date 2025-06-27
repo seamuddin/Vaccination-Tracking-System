@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->enum('gender', ['male', 'female', 'other'])->default('male');
             $table->string('guardian_name');
             $table->string('guardian_contact')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade'); // optional if you have user accounts
+            $table->foreignId('parent_id')->nullable()->constrained('users')->onDelete('cascade'); // optional if you have user accounts
             $table->timestamps();
         });
     }
