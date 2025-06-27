@@ -46,7 +46,7 @@ class ChildControllers extends Controller
                         return CommonFunction::formatLastUpdatedTime($child->updated_at);
                     })
                     ->addColumn('action', function ($child) {
-                        return '<a href="' . \URL::to('children/' . $child->id . '/edit') . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
+                        return '<a href="' . \URL::to('child/edit/' . $child->id . '/') . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
                     })
                     ->rawColumns(['action'])
                     ->make(true);
@@ -70,12 +70,15 @@ class ChildControllers extends Controller
     public function store(StoreChildRequest $request)
     {
         try {
+            $update = false;
             // dd($request->all());
             // Fetch parent (user) info
             $parent = User::findOrFail($request->get('parent_id'));
 
             if ($request->get('id')) {
                 $child = Child::findOrFail($request->get('id'));
+                $update = true;
+                
             } else {
                 $child = new Child();
             }
@@ -88,8 +91,11 @@ class ChildControllers extends Controller
             $child->guardian_contact = $request->get('parent_contact');; // Get contact from user, fallback to null
             
             $child->save();
-
-            Session::flash('success', 'Child saved successfully!');
+            if ($update) {
+                Session::flash('success',"Child updated successfully");
+            } else {
+                Session::flash('success',"Child created successfully");
+            }
             return redirect()->route('child.list');
         } catch (\Exception $e) {
             Log::error("Error occurred in ChildController@store ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
@@ -103,9 +109,11 @@ class ChildControllers extends Controller
         return view('Child::show', compact('child'));
     }
 
-    public function edit(Child $child)
+    public function edit($id)
     {
-        return view('Child::edit', compact('child'));
+        $child = Child::findOrFail($id);
+        $parents = User::where('role_id', 4)->pluck('name', 'id');
+        return view('Child::edit', compact('child', 'parents'));
     }
 
     public function update(Request $request, Child $child)

@@ -27,3 +27,12 @@ Track upcoming/overdue vaccines.
 
 Parent Role
 View read-only record and receive reminders.
+
+
+
+✅ 🧠 Workflow Example for Health Workers
+Health worker registers new child → system auto-generates all scheduled vaccines.
+Health worker visits dashboard → sees list of due vaccines.
+Administers dose → updates Vaccination_Record as given with date_given.
+Next due date is computed automatically using dose_interval_days.
+Parent/Guardian sees updated info instantly on dashboard.

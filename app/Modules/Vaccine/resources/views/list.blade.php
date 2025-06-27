@@ -27,7 +27,6 @@
                                 <th>Manufacturer</th>
                                 <th>Dose Count</th>
                                 <th>Recommended Age</th>
-                                <th>Status</th>
                                 <th>Last Updated</th>
                                 <th>Action</th>
                             </tr>
@@ -81,17 +80,7 @@
                         data: 'recommended_age',
                         name: 'recommended_age'
                     },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        render: function(data) {
-                            if (data === 'active') {
-                                return '<span class="badge bg-success">Active</span>';
-                            } else {
-                                return '<span class="badge bg-danger">Inactive</span>';
-                            }
-                        }
-                    },
+                    
                     {
                         data: 'updated_at',
                         name: 'updated_at'

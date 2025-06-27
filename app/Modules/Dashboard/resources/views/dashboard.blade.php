@@ -30,7 +30,7 @@
                             <div class="card-header">
                                 <h6 class="m-0">Vaccination Progress</h6>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body pt-2">
                                 <div class="progress-item">
                                     <div class="progress-header">
                                         <span class="progress-label">0-12 Months</span>

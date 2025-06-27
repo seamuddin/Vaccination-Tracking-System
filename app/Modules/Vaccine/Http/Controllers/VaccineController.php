@@ -17,31 +17,32 @@ class VaccineController extends Controller
     {
         try {
             if ($request->ajax() && $request->isMethod('post')) {
-                $list = Vaccine::select('id', 'name', 'manufacturer', 'doses_required', 'description', 'updated_at')
-                    ->orderBy('id')
-                    ->get();
+            $list = Vaccine::select('id', 'name', 'manufacturer', 'doses_required', 'age_due_days', 'number_of_doses', 'dose_interval_days', 'updated_at')
+                ->orderBy('id')
+                ->get();
 
-                return \DataTables::of($list)
-                    ->editColumn('name', function ($vaccine) {
-                        return $vaccine->name ?? '';
-                    })
-                    ->editColumn('manufacturer', function ($vaccine) {
-                        return $vaccine->manufacturer ?? '';
-                    })
-                    ->editColumn('doses_required', function ($vaccine) {
-                        return $vaccine->doses_required ?? '';
-                    })
-                    ->editColumn('description', function ($vaccine) {
-                        return $vaccine->description ?? '';
-                    })
-                    ->editColumn('updated_at', function ($vaccine) {
-                        return CommonFunction::formatLastUpdatedTime($vaccine->updated_at);
-                    })
-                    ->addColumn('action', function ($vaccine) {
-                        return '<a href="' . \URL::to('vaccines/' . $vaccine->id . '/edit') . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
+            return \DataTables::of($list)
+                ->editColumn('name', function ($vaccine) {
+                return $vaccine->name ?? '';
+                })
+                ->editColumn('manufacturer', function ($vaccine) {
+                return $vaccine->manufacturer ?? '';
+                })
+                ->addColumn('dose_count', function ($vaccine) {
+                return $vaccine->number_of_doses ?? $vaccine->doses_required ?? '';
+                })
+                ->editColumn('recommended_age', function ($vaccine) {
+                return $vaccine->age_due_days . " Days" ?? '';
+                })
+    
+                ->editColumn('updated_at', function ($vaccine) {
+                return CommonFunction::formatLastUpdatedTime($vaccine->updated_at);
+                })
+                ->addColumn('action', function ($vaccine) {
+                return '<a href="' . \URL::to('vaccine/edit/' . $vaccine->id . '/') . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
             }
             return view("Vaccine::list");
         } catch (\Exception $e) {
@@ -68,6 +69,9 @@ class VaccineController extends Controller
             $vaccine->name = $request->get('name');
             $vaccine->manufacturer = $request->get('manufacturer');
             $vaccine->doses_required = $request->get('doses_required');
+            $vaccine->age_due_days = $request->get('age_due_days');
+            $vaccine->number_of_doses = $request->get('number_of_doses');
+            $vaccine->dose_interval_days = $request->get('dose_interval_days');
             $vaccine->description = $request->get('description');
             $vaccine->save();
 
@@ -85,8 +89,9 @@ class VaccineController extends Controller
         return view('Vaccine::show', compact('vaccine'));
     }
 
-    public function edit(Vaccine $vaccine)
+    public function edit($id)
     {
+        $vaccine = Vaccine::findOrFail($id);
         return view('Vaccine::edit', compact('vaccine'));
     }
 
