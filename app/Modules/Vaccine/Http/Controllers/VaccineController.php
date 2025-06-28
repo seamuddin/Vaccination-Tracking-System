@@ -10,6 +10,9 @@ use App\Modules\Vaccine\Http\Requests\StoreVaccineRequest;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use App\Libraries\CommonFunction;
+use Exception;
+use yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\URL;
 
 class VaccineController extends Controller
 {
@@ -21,7 +24,7 @@ class VaccineController extends Controller
                 ->orderBy('id')
                 ->get();
 
-            return \DataTables::of($list)
+            return DataTables::of($list)
                 ->editColumn('name', function ($vaccine) {
                 return $vaccine->name ?? '';
                 })
@@ -39,15 +42,15 @@ class VaccineController extends Controller
                 return CommonFunction::formatLastUpdatedTime($vaccine->updated_at);
                 })
                 ->addColumn('action', function ($vaccine) {
-                return '<a href="' . \URL::to('vaccine/edit/' . $vaccine->id . '/') . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
+                return '<a href="' . URL::to('vaccine/edit/' . $vaccine->id . '/') . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
             }
             return view("Vaccine::list");
-        } catch (\Exception $e) {
-            \Log::error("Error occurred in VaccineController@list ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
-            \Session::flash('error', "Something went wrong during application data load [Vaccine-101]");
+        } catch (Exception $e) {
+            Log::error("Error occurred in VaccineController@list ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            Session::flash('error', "Something went wrong during application data load [Vaccine-101]");
             return response()->json(['error' => $e->getMessage()], \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

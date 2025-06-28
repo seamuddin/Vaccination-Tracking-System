@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\DB;
 use App\Modules\Vaccine\Models\Vaccine;
 use App\Modules\Vaccine\Models\VaccinationRecord;
 use Carbon\Carbon;
-
-
+use yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\URL;
+use Exception;
 
 class ChildControllers extends Controller
 {
@@ -27,7 +28,7 @@ class ChildControllers extends Controller
                     ->orderBy('id')
                     ->get();
 
-                return \DataTables::of($list)
+                return DataTables::of($list)
                     ->editColumn('name', function ($child) {
                         return $child->name ?? '';
                     })
@@ -50,18 +51,18 @@ class ChildControllers extends Controller
                         return CommonFunction::formatLastUpdatedTime($child->updated_at);
                     })
                     ->addColumn('vaccination_records', function ($child) {
-                        return '<a href="' . \URL::to('child/records/' . $child->id . '/') . '" class="btn btn-sm btn-primary text-center"><i class="fas fa-window-restore"></i></a>';
+                        return '<a href="' . URL::to('child/records/' . $child->id . '/') . '" class="btn btn-sm btn-primary text-center"><i class="fas fa-window-restore"></i></a>';
                     })
                     ->addColumn('action', function ($child) {
-                        return '<a href="' . \URL::to('child/edit/' . $child->id . '/') . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
+                        return '<a href="' . URL::to('child/edit/' . $child->id . '/') . '" class="btn btn-sm btn-primary"><i class="bx bx-edit"></i></a>';
                     })
                     ->rawColumns(['action','vaccination_records'])
                     ->make(true);
             }
             return view("Child::list");
-        } catch (\Exception $e) {
-            \Log::error("Error occurred in ChildController@list ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
-            \Session::flash('error', "Something went wrong during application data load [Child-101]");
+        } catch (Exception $e) {
+            Log::error("Error occurred in ChildController@list ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            Session::flash('error', "Something went wrong during application data load [Child-101]");
             return response()->json(['error' => $e->getMessage()], \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -169,7 +170,7 @@ class ChildControllers extends Controller
                     ->orderBy('next_due_date')
                     ->get();
 
-                return \DataTables::of($records)
+                return DataTables::of($records)
                     ->addColumn('vaccine_name', function ($record) {
                         return $record->vaccine->name ?? '';
                     })
@@ -180,7 +181,22 @@ class ChildControllers extends Controller
                         return $record->next_due_date ? Carbon::parse($record->next_due_date)->format('Y-m-d') : '';
                     })
                     ->addColumn('status', function ($record) {
-                        return ucfirst($record->status);
+                        $status = strtolower($record->status);
+                        switch ($status) {
+                            case 'scheduled':
+                                $badgeClass = 'badge bg-warning';
+                                break;
+                            case 'given':
+                                $badgeClass = 'badge bg-success';
+                                break;
+                            case 'missed':
+                                $badgeClass = 'badge bg-danger';
+                                break;
+                            default:
+                                $badgeClass = 'badge bg-secondary';
+                                break;
+                        }
+                        return '<span class="' . $badgeClass . '">' . ucfirst($status) . '</span>';
                     })
                     ->addColumn('health_worker', function ($record) {
                         return $record->healthWorker->name ?? '';
@@ -191,9 +207,9 @@ class ChildControllers extends Controller
 
             $child = Child::findOrFail($childId);
             return view('Child::vaccines', compact('child'));
-        } catch (\Exception $e) {
-            \Log::error("Error occurred in ChildController@records ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
-            \Session::flash('error', "Something went wrong during vaccination records load [Child-201]");
+        } catch (Exception $e) {
+            Log::error("Error occurred in ChildController@records ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            Session::flash('error', "Something went wrong during vaccination records load [Child-201]");
             return response()->json(['error' => $e->getMessage()], \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

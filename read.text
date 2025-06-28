@@ -36,3 +36,12 @@ Health worker visits dashboard → sees list of due vaccines.
 Administers dose → updates Vaccination_Record as given with date_given.
 Next due date is computed automatically using dose_interval_days.
 Parent/Guardian sees updated info instantly on dashboard.
+
+
+1. Vaccine Center
+2. Vaccination Record
+3. Parent/Guardian Dashboard 
+4. Child Registration Request
+5. Leaflet JS / MAP Integration
+6. Dashboard Dynamic Query for Data Preparation
+7. Notification with Email / SMS

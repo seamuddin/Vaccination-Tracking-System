@@ -1,6 +1,7 @@
 <?php
 
 use App\Modules\Child\Http\Controllers\ChildControllers;
+use Illuminate\Support\Facades\Route;
 
 Route::group(['Module' => 'Child', 'middleware' => ['auth']], function () {
     Route::prefix('child')->group(function () {

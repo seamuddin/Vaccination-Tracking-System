@@ -75,16 +75,16 @@
                     <div class="card-body pt-3">
                         <div class="row g-3">
                             <div class="col-md-4 col-12">
-                                <button class="btn btn-outline-primary p-4 w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="registerNewChild()">
+                                <a href="{{ route('child.create') }}" class="btn btn-outline-primary p-4 w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="registerNewChild()">
                                     <i class="fas fa-user-plus fa-2x mb-2"></i>
                                     <span>Register New Child</span>
-                                </button>
+                                </a>
                             </div>
                             <div class="col-md-4 col-12">
-                                <button class="btn btn-outline-success p-4 w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="quickVaccination()">
+                                <a href="{{ route('quick.vaccination') }}" class="btn btn-outline-success p-4 w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="quickVaccination()">
                                     <i class="fas fa-syringe fa-2x mb-2"></i>
                                     <span>Quick Vaccination</span>
-                                </button>
+                                </a>
                             </div>
                             <div class="col-md-4 col-12">
                                 <button class="btn btn-outline-info p-4 w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="viewReports()">
