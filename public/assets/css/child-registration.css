@@ -1,0 +1,413 @@
+:root {
+    --primary-color: #4F46E5;
+    --secondary-color: #7C3AED;
+    --accent-color: #818CF8;
+    --background-light: #F5F3FF;
+    --text-primary: #1F2937;
+    --text-secondary: #4B5563;
+    --primary-hover: #4338CA;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --soft-gray: #F8F9FA;
+    --border-light: #E5E7EB;
+    --white: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--background-light);
+    min-height: 100vh;
+}
+
+/* Navigation */
+.navbar {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: white !important;
+}
+
+.nav-link {
+    color: rgba(255,255,255,0.9) !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: white !important;
+}
+
+/* Main Container */
+.main-container {
+    padding: 2rem 0;
+    min-height: calc(100vh - 80px);
+}
+
+/* Page Title */
+.page-title {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.page-title h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* Card Styling */
+.card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(79, 70, 229, 0.1);
+    background: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.card .p-4 {
+    padding: 3rem !important;
+}
+
+/* Form Styling */
+.child-registration-form {
+    position: relative;
+    z-index: 2;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.required::after {
+    content: ' *';
+    color: var(--danger-color);
+}
+
+.form-control {
+    border: 2px solid var(--border-light);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    outline: none;
+}
+
+.form-control.is-invalid {
+    border-color: var(--danger-color);
+}
+
+.form-control.is-valid {
+    border-color: var(--success-color);
+}
+
+/* Select2 Styling */
+.select2-container--default .select2-selection--single {
+    border: 2px solid var(--border-light);
+    border-radius: 10px;
+    height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 1.5;
+    color: var(--text-primary);
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.select2-dropdown {
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Age Display */
+.age-display {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: var(--background-light);
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.age-display.visible {
+    display: block;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+    color: white;
+}
+
+.btn-outline-secondary {
+    background: transparent;
+    border: 2px solid var(--text-secondary);
+    color: var(--text-secondary);
+}
+
+.btn-outline-secondary:hover {
+    background: var(--text-secondary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Form Actions */
+.form-actions {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-light);
+}
+
+/* Loading State */
+.btn-loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Validation Messages */
+.invalid-feedback {
+    color: var(--danger-color);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+.valid-feedback {
+    color: var(--success-color);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+/* Success Message */
+.success-message {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--success-color);
+    color: var(--success-color);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    text-align: center;
+    display: none;
+}
+
+.success-message.show {
+    display: block;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.success-message i {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+/* Error Message */
+.error-message {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    text-align: center;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Info Box */
+.info-box {
+    background: rgba(79, 70, 229, 0.05);
+    border: 1px solid var(--accent-color);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.info-box h6 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.info-box p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-container {
+        padding: 1rem 0;
+    }
+
+    .card .p-4 {
+        padding: 2rem 1.5rem !important;
+    }
+
+    .page-title h2 {
+        font-size: 1.5rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .form-actions .btn:last-child {
+        margin-bottom: 0;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Progress Indicator */
+.progress-indicator {
+    background: var(--background-light);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.progress-step {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--border-light);
+    color: var(--text-secondary);
+    line-height: 30px;
+    margin: 0 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.progress-step.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.progress-step.completed {
+    background: var(--success-color);
+    color: white;
+}
+
+/* Form Groups Enhancement */
+.form-group {
+    position: relative;
+}
+
+.form-group .validation-icon {
+    position: absolute;
+    right: 1rem;
+    top: 2.5rem;
+    font-size: 1rem;
+}
+
+.validation-icon.valid {
+    color: var(--success-color);
+}
+
+.validation-icon.invalid {
+    color: var(--danger-color);
+}

@@ -10,8 +10,15 @@ class LoginController extends Controller
 {
     public function login()
     {
+
         if (Auth::check()) {
-            return redirect()->intended('dashboard');
+            $user = Auth::user();
+            $roleSlug = $user->role->slug ?? null; // Assuming User has 'role' relationship with 'slug' attribute
+            if (in_array($roleSlug, ['admin', 'health-worker'])) {
+                return redirect()->intended('dashboard');
+            } elseif ($roleSlug === 'parent') {
+                return redirect()->intended('guardian_portfolio');
+            }
         }
         return view('auth.login');
     }
@@ -25,7 +32,15 @@ class LoginController extends Controller
         ]);
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            if (Auth::check()) {
+                $user = Auth::user();
+                $roleSlug = $user->role->slug ?? null;
+                if (in_array($roleSlug, ['admin', 'health-worker'])) {
+                    return redirect()->intended('dashboard');
+                } elseif ($roleSlug === 'parent') {
+                    return redirect()->intended('guardian_portfolio');
+                }
+            }
         }
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',

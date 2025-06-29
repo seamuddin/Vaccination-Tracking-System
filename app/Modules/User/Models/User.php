@@ -44,8 +44,4 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function userType()
-    {
-        return $this->belongsTo(Role::class, 'user_type');
-    }
 }

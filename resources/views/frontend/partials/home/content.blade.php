@@ -6,9 +6,6 @@
                 <h1>Track Your Child's Vaccinations Easily and Stay Informed</h1>
                 <p class="lead">Keep your family protected with our comprehensive vaccine tracking system. Never miss an important vaccination again with personalized reminders and easy scheduling.</p>
                 <div class="cta-buttons">
-                    <a href="#centers" class="btn-cta btn-primary-cta" aria-label="Start tracking vaccinations">
-                        <i class="fas fa-chart-line me-2"></i>Start Tracking
-                    </a>
                     <a href="#schedule" class="btn-cta btn-secondary-cta" aria-label="Explore vaccine schedules">
                         <i class="fas fa-calendar-alt me-2"></i>Explore Schedule
                     </a>

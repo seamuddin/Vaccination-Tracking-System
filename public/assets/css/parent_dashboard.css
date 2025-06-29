@@ -1,0 +1,779 @@
+
+:root {
+    --primary-color: #4F46E5;
+    --secondary-color: #7C3AED;
+    --accent-color: #818CF8;
+    --background-light: #F5F3FF;
+    --text-primary: #1F2937;
+    --text-secondary: #4B5563;
+    --primary-hover: #4338CA;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --soft-gray: #F8F9FA;
+    --border-light: #E5E7EB;
+    --white: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--background-light);
+}
+
+/* Navigation */
+.navbar {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: white !important;
+}
+
+.nav-link {
+    color: rgba(255,255,255,0.9) !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 0.5rem 1rem !important;
+}
+
+.nav-link:hover {
+    color: white !important;
+    transform: translateY(-1px);
+}
+
+.nav-link.active {
+    color: white !important;
+    font-weight: 600;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--accent-color);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 80%;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--danger-color);
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.user-menu {
+    position: relative;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+    transform: scale(1.05);
+    background: white;
+    color: var(--primary-color);
+}
+
+/* Main Container */
+.dashboard-container {
+    padding: 2rem 0;
+    min-height: calc(100vh - 200px);
+}
+
+/* Welcome Section */
+.welcome-section {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.welcome-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.welcome-subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* Child Overview Cards */
+.children-overview {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.child-overview-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 30px rgba(79, 70, 229, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.child-overview-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(79, 70, 229, 0.15);
+}
+
+.child-header {
+    display: flex;
+    align-items: center;
+    justify-content: between;
+    margin-bottom: 1.5rem;
+}
+
+.child-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.child-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    margin-right: 1.5rem;
+    flex-shrink: 0;
+}
+
+.child-details h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.child-age {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.vaccination-summary {
+    background: var(--background-light);
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.summary-text {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.summary-fraction {
+    font-size: 1.2rem;
+    color: var(--success-color);
+}
+
+.child-actions {
+    display: flex;
+    gap: 1rem;
+    margin-left: auto;
+    flex-direction: column;
+}
+
+.btn-view-profile {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.btn-view-profile:hover {
+    background: var(--primary-hover);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-download {
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.btn-download:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Progress Tracker */
+.progress-section {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(79, 70, 229, 0.1);
+}
+
+.vaccination-timeline {
+    position: relative;
+    margin: 2rem 0;
+}
+
+.timeline-line {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    right: 30px;
+    height: 4px;
+    background: var(--border-light);
+    border-radius: 2px;
+}
+
+.timeline-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(135deg, var(--success-color), #34D399);
+    border-radius: 2px;
+    transition: width 1s ease;
+}
+
+.timeline-items {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    max-width: 120px;
+}
+
+.timeline-point {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    border: 4px solid white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.timeline-point.completed {
+    background: var(--success-color);
+}
+
+.timeline-point.current {
+    background: var(--warning-color);
+    animation: pulse 2s infinite;
+}
+
+.timeline-point.pending {
+    background: var(--border-light);
+    color: var(--text-secondary);
+}
+
+.timeline-label {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.timeline-label.completed {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Upcoming Vaccines */
+.upcoming-vaccines {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(79, 70, 229, 0.1);
+}
+
+.vaccine-item {
+    display: flex;
+    align-items: center;
+    padding: 1.25rem;
+    background: var(--background-light);
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--accent-color);
+}
+
+.vaccine-item:hover {
+    transform: translateX(5px);
+    background: white;
+    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.1);
+}
+
+.vaccine-item.overdue {
+    border-left-color: var(--danger-color);
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.vaccine-item.due-soon {
+    border-left-color: var(--warning-color);
+    background: rgba(245, 158, 11, 0.05);
+}
+
+.vaccine-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.vaccine-icon.overdue {
+    background: var(--danger-color);
+}
+
+.vaccine-icon.due-soon {
+    background: var(--warning-color);
+}
+
+.vaccine-icon.scheduled {
+    background: var(--primary-color);
+}
+
+.vaccine-details {
+    flex: 1;
+}
+
+.vaccine-name {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.vaccine-info {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.vaccine-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-right: 1rem;
+}
+
+.status-overdue {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger-color);
+}
+
+.status-due-soon {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning-color);
+}
+
+.status-scheduled {
+    background: rgba(79, 70, 229, 0.1);
+    color: var(--primary-color);
+}
+
+.vaccine-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+}
+
+.btn-vaccine-action {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-mark-given {
+    background: var(--success-color);
+    color: white;
+}
+
+.btn-mark-given:hover {
+    background: #059669;
+    transform: translateY(-1px);
+}
+
+.btn-remind {
+    background: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-remind:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Alerts Panel */
+.alerts-panel {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(79, 70, 229, 0.1);
+}
+
+.alert-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    border-left: 4px solid;
+    position: relative;
+}
+
+.alert-critical {
+    background: rgba(239, 68, 68, 0.05);
+    border-left-color: var(--danger-color);
+}
+
+.alert-warning {
+    background: rgba(245, 158, 11, 0.05);
+    border-left-color: var(--warning-color);
+}
+
+.alert-info {
+    background: rgba(79, 70, 229, 0.05);
+    border-left-color: var(--primary-color);
+}
+
+.alert-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    color: white;
+    position: relative;
+}
+
+.alert-critical .alert-icon {
+    background: var(--danger-color);
+}
+
+.alert-warning .alert-icon {
+    background: var(--warning-color);
+}
+
+.alert-info .alert-icon {
+    background: var(--primary-color);
+}
+
+.red-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--danger-color);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border: 2px solid white;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-title {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--text-primary);
+}
+
+.alert-message {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.alert-time {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-left: auto;
+}
+
+/* QR Code Section */
+.qr-section {
+    background: var(--background-light);
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.qr-code {
+    width: 120px;
+    height: 120px;
+    background: white;
+    border: 2px solid var(--border-light);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 4rem;
+    color: var(--text-secondary);
+}
+
+.qr-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.qr-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 3rem 0 2rem;
+    margin-top: 4rem;
+    position: relative;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: -75px;
+    left: 0;
+    width: 100%;
+    height: 75px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    clip-path: ellipse(100% 100% at 50% 100%);
+}
+
+.footer-content {
+    position: relative;
+    z-index: 2;
+}
+
+.footer h5 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.footer-links a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a:hover {
+    color: white;
+    transform: translateX(5px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1rem 0;
+    }
+
+    .welcome-section,
+    .child-overview-card,
+    .progress-section,
+    .upcoming-vaccines,
+    .alerts-panel {
+        padding: 1.5rem;
+    }
+
+    .child-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .child-actions {
+        flex-direction: row;
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+
+    .timeline-items {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .timeline-item {
+        flex: none;
+        width: calc(50% - 0.5rem);
+    }
+
+    .timeline-line {
+        display: none;
+    }
+
+    .vaccine-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .vaccine-actions {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .alert-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .alert-time {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-title {
+        font-size: 1.5rem;
+    }
+
+    .child-actions {
+        flex-direction: column;
+    }
+
+    .timeline-item {
+        width: 100%;
+    }
+
+    .vaccine-actions {
+        flex-direction: column;
+    }
+}
