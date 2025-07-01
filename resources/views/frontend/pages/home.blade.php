@@ -34,7 +34,7 @@
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('mainNav');
             if (window.scrollY > 100) {
-                navbar.style.background = 'linear-gradient(135deg, rgba(79, 70, 229, 0.95), rgba(124, 58, 237, 0.95))';
+                navbar.style.background = 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))';
                 navbar.style.backdropFilter = 'blur(10px)';
             } else {
                 navbar.style.background = 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))';

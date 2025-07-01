@@ -20,7 +20,7 @@ class LoginController extends Controller
                 return redirect()->intended('guardian_portfolio');
             }
         }
-        return view('auth.login');
+        return view('auth.login_new');
     }
 
 

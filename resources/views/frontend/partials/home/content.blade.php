@@ -13,7 +13,7 @@
             </div>
             <div class="col-lg-6 text-center">
                 <div class="hero-image mt-4 mt-lg-0">
-                    <img class="img-fluid p-5" src="vaccine3.png" alt="">
+                    <img class="img-fluid p-5" src="{{ asset('assets/img/vaccine.png') }}" alt="">
                 </div>
             </div>
         </div>
