@@ -52,61 +52,104 @@
                     <!-- Card Header -->
                     <div class="card-header text-center">
                         <h3 class="bangla-text fw-bold mb-0">
-                            লগইন করুন
+                            অভিভাবক নিবন্ধন
                         </h3>
                     </div>
-                    
 
                     <!-- Card Body -->
-                    <div class="card-body">
+                    <div class="card-body p-0">
                         <!-- Security Notice -->
+                        
 
-                        <!-- Login Form (Laravel Collective) -->
-                        {!! Form::open(['route' => 'login.check','method' => 'post','id' => 'form_id','enctype' => 'multipart/form-data','files' => 'true','role' => 'form']) !!}
+                    <div class="main-form">
+                        <!-- Registration Form (Laravel Collective) -->
+                        {!! Form::open(['route' => 'register.store','method' => 'post','id' => 'registration_form','enctype' => 'multipart/form-data','files' => true,'role' => 'form']) !!}
+
                         <div class="mb-3">
-                            <div class="{{ $errors->has('email') ? 'has-error' : '' }}">
-                                {!! Form::label('email', 'ইমেইল', ['class'=>'col-md-12 form-label bangla-text required-star']) !!}
-                                <div class="col-md-12">
-                                    {!! Form::text('email', old('email'), ['class' => 'form-control required english-text','id' =>'email', 'placeholder' => 'Enter your email', 'autofocus'=>'true']) !!}
-                                    {!! $errors->first('email','<span class="help-block">:message</span>') !!}
-                                </div>
-                            </div>
+                            {!! Form::label('name', 'পূর্ণ নাম', ['class'=>'form-label bangla-text required-star']) !!}
+                            {!! Form::text('name', old('name'), ['class' => 'form-control required bangla-text','id' =>'name', 'placeholder' => 'আপনার পূর্ণ নাম লিখুন', 'autofocus'=>'true', 'required' => true]) !!}
+                            {!! $errors->first('name','<span class="help-block">:message</span>') !!}
                         </div>
 
-                        <div class="mb-3 form-password-toggle {{ $errors->has('password') ? 'has-error' : '' }}">
-                            <div class="d-flex justify-content-between">
-                                {!! Form::label('password', 'পাসওয়ার্ড', ['class'=>'form-label bangla-text required-star']) !!}
-                               
-                            </div>
-                            <div class="col-md-12" style="position: relative;">
-                                {!! Form::password('password', ['class' => 'form-control required english-text', 'id'=>'password','placeholder' => 'Enter your password']) !!}
-                                <span class="input-group-text cursor-pointer" style="position:absolute; top:2px; right:0px"><i class="bx bx-hide"></i></span>
+                        <div class="mb-3">
+                            {!! Form::label('email', 'ইমেইল', ['class'=>'form-label bangla-text required-star']) !!}
+                            {!! Form::email('email', old('email'), ['class' => 'form-control required english-text','id' =>'email', 'placeholder' => 'আপনার ইমেইল লিখুন', 'required' => true]) !!}
+                            {!! $errors->first('email','<span class="help-block">:message</span>') !!}
+                        </div>
+
+                        <div class="mb-3">
+                            {!! Form::label('password', 'পাসওয়ার্ড', ['class'=>'form-label bangla-text required-star']) !!}
+                            <div class="input-group">
+                                {!! Form::password('password', ['class' => 'form-control required english-text', 'id'=>'password','placeholder' => 'পাসওয়ার্ড দিন', 'required' => true]) !!}
+                                <span class="input-group-text cursor-pointer" onclick="togglePassword('password')"><i class="bx bx-hide"></i></span>
                             </div>
                             {!! $errors->first('password','<span class="help-block">:message</span>') !!}
                         </div>
 
                         <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember-me"/>
-                                <label class="form-check-label" for="remember-me"> Remember Me </label>
+                            {!! Form::label('password_confirmation', 'পাসওয়ার্ড নিশ্চিত করুন', ['class'=>'form-label bangla-text required-star']) !!}
+                            <div class="input-group">
+                                {!! Form::password('password_confirmation', ['class' => 'form-control required english-text', 'id'=>'password_confirmation','placeholder' => 'পুনরায় পাসওয়ার্ড দিন', 'required' => true]) !!}
+                                <span class="input-group-text cursor-pointer" onclick="togglePassword('password_confirmation')"><i class="bx bx-hide"></i></span>
                             </div>
                         </div>
+
+                        <div class="mb-3">
+                            {!! Form::label('nid', 'জাতীয় পরিচয়পত্র নম্বর', ['class'=>'form-label bangla-text required-star']) !!}
+                            {!! Form::number('nid', old('nid'), [
+                                'class' => 'form-control required bangla-text',
+                                'id' => 'nid',
+                                'placeholder' => 'NID নম্বর',
+                                'required' => true,
+                                'min' => 0,
+                                'step' => 1,
+                                'inputmode' => 'numeric',
+                                'pattern' => '[0-9]*'
+                            ]) !!}
+                            {!! $errors->first('nid','<span class="help-block">:message</span>') !!}
+                        </div>
+
+                        <div class="mb-3">
+                            {!! Form::label('mobile_number', 'মোবাইল নম্বর', ['class'=>'form-label bangla-text required-star']) !!}
+                            {!! Form::text('mobile_number', old('mobile_number'), ['class' => 'form-control required bangla-text','id' =>'mobile_number', 'placeholder' => 'মোবাইল নম্বর লিখুন', 'required' => true]) !!}
+                            {!! $errors->first('mobile_number','<span class="help-block">:message</span>') !!}
+                        </div>
+                    </div>
+                        
+                       <div class="form-footer">
+                            <div class="mb-3 form-check pt-2">
+                                {!! Form::checkbox('agree', 1, false, ['class' => 'form-check-input', 'id' => 'agree']) !!}
+                                {!! Form::label('agree', 'আমি গোপনীয়তা নীতি ও শর্তাবলীতে সম্মত', ['class'=>'form-check-label bangla-text required-star']) !!}
+                                {!! $errors->first('agree','<span class="help-block">:message</span>') !!}
+                            </div>
+                    
                         <div class="mb-3">
                             <button class="btn btn-login d-grid w-100" type="submit">
                                 <span class="login-text bangla-text">
-                                    <i class="fas fa-sign-in-alt me-2"></i>প্রবেশ করুন
+                                    <i class="fas fa-sign-in-alt me-2"></i>নিবন্ধন করুন
                                 </span>
                             </button>
                         </div>
                         {!! Form::close() !!}
 
                         <!-- Secondary Actions -->
-                        <div class="secondary-actions">
-                            <a href="{{ route('register') }}" class="register-link bangla-text" onclick="showRegistration()">
-                                <i class="fas fa-user-plus me-2"></i>নতুন অ্যাকাউন্ট তৈরি করুন
+                        <div class="secondary-actions pt-2">
+                            <a href="{{ route('login') }}" class="login-link bangla-text">
+                                <i class="fas fa-sign-in-alt me-2"></i>ইতিমধ্যে অ্যাকাউন্ট আছে? প্রবেশ করুন
                             </a>
                         </div>
+                       </div>
                     </div>
+                    <script>
+                        function togglePassword(fieldId) {
+                            const input = document.getElementById(fieldId);
+                            if (input.type === "password") {
+                                input.type = "text";
+                            } else {
+                                input.type = "password";
+                            }
+                        }
+                    </script>
                 </div>
             </div>
         </div>

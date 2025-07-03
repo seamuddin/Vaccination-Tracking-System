@@ -59,7 +59,7 @@ class LoginController extends Controller
 
     public function register()
     {
-        return view('auth.register');
+        return view('auth.register_new');
     }
 
     public function registerStore(Request $request)

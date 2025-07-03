@@ -354,8 +354,7 @@ body {
 }
 
 .input-group .form-control {
-    border-left: none;
-    border-radius: 0 8px 8px 0;
+    border-radius: 8px 8px 8px 8px;
 }
 
 .input-group .form-control:focus {
@@ -725,4 +724,40 @@ body {
     background-color: var(--bd-green);
     border-color: var(--bd-green);
     box-shadow: 0 2px 4px 0 rgba(0, 106, 78, 0.4);
+}
+.main-form
+{
+        height: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 10px;
+}
+
+.form-footer {
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+/* For Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 5px;               /* Width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;       /* Color of the track */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--bd-green);    /* Scroll thumb color */
+  border-radius: 8px;       /* Roundness of the scroll thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--bd-green);    /* Scroll thumb on hover */
 }
