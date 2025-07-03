@@ -1,47 +1,9 @@
-
-🧠 Recommended Approach for Your System:
-Health Workers Register Child
-Health workers add a new child profile after birth or during the first vaccine visit.
-They enter the parent/guardian contact details (email, phone) to create the parent account automatically.
-A notification or login link is sent to the parent.
-
-
-Guardian View-Only Role
-Parent cannot add new child profiles themselves to prevent duplicate or incorrect entries.
-Parent can view all registered children under their account, see schedules, download reports.
-
-
-Optional Parent Request Feature
-Parent can submit a “Request to Register Child” if they don’t see their child in the system.
-Health worker can review and approve that request.
-
-
-
-🎯 ✅ Summary
-Admin Role
-Manage list of vaccines & schedules.
-
-Health Worker Role
-Record administered doses.
-Track upcoming/overdue vaccines.
-
-Parent Role
-View read-only record and receive reminders.
-
-
-
-✅ 🧠 Workflow Example for Health Workers
-Health worker registers new child → system auto-generates all scheduled vaccines.
-Health worker visits dashboard → sees list of due vaccines.
-Administers dose → updates Vaccination_Record as given with date_given.
-Next due date is computed automatically using dose_interval_days.
-Parent/Guardian sees updated info instantly on dashboard.
-
-
 1. Vaccine Center
-2. Vaccination Record
-3. Parent/Guardian Dashboard 
-4. Child Registration Request
-5. Leaflet JS / MAP Integration
-6. Dashboard Dynamic Query for Data Preparation
-7. Notification with Email / SMS
+2. Child Registration Request
+3. Leaflet JS / MAP Integration
+4. Dashboard Dynamic Query for Data Preparation
+5. Notification with Email / SMS
+6. Functional Data in dashboard
+7. Birth Certificate number and attachment Mandatory in Registration
+8. NID Number Required in Parent Registration
+9. login and Registration Page Look need to change with e-gov system

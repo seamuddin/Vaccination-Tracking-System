@@ -31,7 +31,7 @@ class userSeeder extends Seeder
             'user_type' => 'A-1001',
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => Hash::make('123'), // You can change this to a more secure password
+            'password' => Hash::make('123456'), // You can change this to a more secure password
             'role_id' => Role::where('slug', 'admin')->first()->id,
             'status' => true
         ]);

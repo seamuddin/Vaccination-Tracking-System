@@ -62,7 +62,7 @@
                             <div class="{{ $errors->has('email') ? 'has-error' : '' }}">
                                 {!! Form::label('email', 'ইমেইল ঠিকানা', ['class'=>'col-md-12 form-label bangla-text required-star']) !!}
                                 <div class="col-md-12">
-                                    {!! Form::text('email', old('email'), ['class' => 'form-control required english-text', 'placeholder' => 'Enter your email', 'autofocus'=>'true']) !!}
+                                    {!! Form::text('email', old('email'), ['class' => 'form-control required english-text','id' =>'email', 'placeholder' => 'Enter your email', 'autofocus'=>'true']) !!}
                                     {!! $errors->first('email','<span class="help-block">:message</span>') !!}
                                 </div>
                             </div>
@@ -74,8 +74,8 @@
                                
                             </div>
                             <div class="col-md-12" style="position: relative;">
-                                {!! Form::password('password', ['class' => 'form-control required english-text', 'placeholder' => 'Enter your password']) !!}
-                                <span class="input-group-text cursor-pointer" style="position:absolute; top:3px; right:0px"><i class="bx bx-hide"></i></span>
+                                {!! Form::password('password', ['class' => 'form-control required english-text', 'id'=>'password','placeholder' => 'Enter your password']) !!}
+                                <span class="input-group-text cursor-pointer" style="position:absolute; top:2px; right:0px"><i class="bx bx-hide"></i></span>
                             </div>
                             {!! $errors->first('password','<span class="help-block">:message</span>') !!}
                         </div>
@@ -177,15 +177,7 @@
             return emailRegex.test(email);
         }
 
-        // Helper functions
-        function forgotPassword() {
-            showAlert('পাসওয়ার্ড রিসেট লিংক আপনার নিবন্ধিত মোবাইল নম্বরে পাঠানো হবে।', 'info');
-        }
-
-        function showRegistration() {
-            showAlert('নতুন অ্যাকাউন্ট তৈরির পৃষ্ঠা খোলা হবে।', 'info');
-        }
-
+        
         function showHelp() {
             showAlert('সাহায্য কেন্দ্র খোলা হবে। হটলাইন: ১৬২৬৩', 'info');
         }
@@ -317,14 +309,7 @@
             });
 
             // Password validation
-            passwordInput.addEventListener('blur', function() {
-                if (this.value && this.value.length < 6) {
-                    this.style.borderColor = 'var(--bd-red)';
-                    showAlert('পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে', 'error');
-                } else {
-                    this.style.borderColor = 'var(--border-light)';
-                }
-            });
+            
 
             // Reset border on focus
             [emailInput, passwordInput].forEach(input => {

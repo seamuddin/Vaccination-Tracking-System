@@ -1,6 +1,6 @@
 :root {
     --bd-green: #006A4E;
-    --bd-red: #ffffff;
+    --bd-red: #ff0000;
     --gov-blue: #0F4C75;
     --light-green: #E8F5E8;
     --light-red: #FFF0F0;
@@ -40,7 +40,7 @@ body {
     background: linear-gradient(135deg, var(--bd-green) 0%, var(--gov-blue) 100%);
     padding: 1rem 0;
     box-shadow: var(--shadow-medium);
-    border-bottom: 4px solid var(--bd-red);
+    border-bottom: 4px solid white;
 }
 
 .gov-logo-section {
@@ -93,7 +93,7 @@ body {
 
 .gov-badge {
     background: rgb(255, 255, 255);
-    border: 2px solid var(--bd-red);
+    border: 2px solid var(--white);
     color: var(--white);
     padding: 0.5rem 1rem;
     border-radius: 25px;
@@ -349,8 +349,8 @@ body {
     background: var(--bd-green);
     border: 2px solid var(--bd-green);
     color: var(--white);
-    border-radius: 0px 8px 8px 0px;
-    padding: 1.02rem 1rem;
+    border-radius: 0px 7px 7px 0px;
+    padding: 1.08rem 1rem;
 }
 
 .input-group .form-control {
@@ -436,7 +436,7 @@ body {
 
 .register-link:hover {
     background: var(--bd-green);
-    color: var(--white);
+    color: var(--white)!important;
 }
 
 /* Security Notice */
@@ -706,4 +706,23 @@ body {
 
 .english-text {
     font-family: 'Inter', sans-serif;
+}
+
+.has-error .form-control {
+    border-color: var(--bd-red)!important;
+}
+.has-error .form-control:focus {
+    border-color: var(--bd-red)!important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
+}
+.has-error .help-block {
+    color: var(--bd-red);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+.form-check-input:checked, .form-check-input[type=checkbox]:indeterminate {
+    background-color: var(--bd-green);
+    border-color: var(--bd-green);
+    box-shadow: 0 2px 4px 0 rgba(0, 106, 78, 0.4);
 }

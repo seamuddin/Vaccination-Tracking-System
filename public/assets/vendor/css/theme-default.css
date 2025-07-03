@@ -1,4 +1,23 @@
 @charset "UTF-8";
+:root {
+    --bd-green: #006A4E;
+    --bd-red: #ff0000;
+    --gov-blue: #0F4C75;
+    --light-green: #E8F5E8;
+    --light-red: #FFF0F0;
+    --light-blue: #F0F4F8;
+    --text-primary: #2C3E50;
+    --text-secondary: #5A6C7D;
+    --border-light: #E1E8ED;
+    --white: #FFFFFF;
+    --gray-50: #F8F9FA;
+    --gray-100: #E9ECEF;
+    --gray-200: #DEE2E6;
+    --shadow-light: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-medium: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+
 .layout-navbar-fixed .layout-wrapper:not(.layout-horizontal) .layout-page:before {
   content: "";
   width: 100%;
@@ -326,7 +345,7 @@ button.list-group-item-primary.active {
 
 .form-control:focus,
 .form-select:focus {
-  border-color: #696cff !important;
+  border-color: var(--bd-green);
 }
 
 .input-group:focus-within .form-control,
