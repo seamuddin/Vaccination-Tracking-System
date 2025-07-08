@@ -87,6 +87,28 @@ class PermissionSeeder extends Seeder
              'slug' => 'app.vaccine.destroy',
          ]);
 
+         $moduleAppVaccinationCenter = Module::updateOrCreate(['title' => 'Vaccination Center', 'slug'=>Str::slug('vaccination-center')]);
+         Permission::updateOrCreate([
+             'module_id' => $moduleAppVaccinationCenter->id,
+             'title' => 'Access Vaccination Center',
+             'slug' => 'app.vaccination_center.index',
+         ]);
+         Permission::updateOrCreate([
+             'module_id' => $moduleAppVaccinationCenter->id,
+             'title' => 'Create Vaccination Center',
+             'slug' => 'app.vaccination_center.create',
+         ]);
+         Permission::updateOrCreate([
+             'module_id' => $moduleAppVaccinationCenter->id,
+             'title' => 'Edit Vaccination Center',
+             'slug' => 'app.vaccination_center.edit',
+         ]);
+         Permission::updateOrCreate([
+             'module_id' => $moduleAppVaccinationCenter->id,
+             'title' => 'Delete Vaccination Center',
+             'slug' => 'app.vaccination_center.destroy',
+         ]);
+
         
 
         // User Permission

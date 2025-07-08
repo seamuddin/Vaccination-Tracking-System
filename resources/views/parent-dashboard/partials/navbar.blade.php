@@ -16,7 +16,8 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('guardian.child.list') }}">
-                            <i class="fas fa-user-plus me-1"></i>My Children
+                            <i class="fa-solid fa-children me-1"></i>
+                            My Children
                         </a>
                     </li>
                     <li class="nav-item">
@@ -27,49 +28,68 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('guardian.profile') }}">
-                            <i class="fas fa-user me-1"></i>Profile
+                            <i class="fa-solid fa-calendar-check me-1"></i>
+                            Appointments
                         </a>
                     </li>
                 </ul>
                 <div class="navbar-nav">
                     <div class="user-menu">
                         <div class="user-info">
-                            <div class="user-name">Fatima Rahman</div>
-                            <div class="user-role">Parent Account</div>
+                            <div class="user-name">{{ Auth::user()->name }}</div>
                         </div>
                         
                         <div class="dropdown" id="userDropdown">
                             <div class="user-avatar" onclick="toggleDropdown()">
-                                FR
+                                {{ strtoupper(substr(trim(Auth::user()->name), 0, 1)) }}
                             </div>
                             
                             <!-- Simple Dropdown Menu -->
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
                                 <!-- User Info Header -->
                                 <div class="dropdown-header">
-                                    <div class="dropdown-avatar">FR</div>
                                     <div class="dropdown-user-info">
-                                        <div class="dropdown-user-name">Fatima Rahman</div>
-                                        <div class="dropdown-user-email">fatima.rahman@email.com</div>
+                                        <div class="dropdown-user-name">{{ Auth::user()->name }}</div>
+                                        <div class="dropdown-user-email">{{ Auth::user()->email }}</div>
                                     </div>
                                 </div>
 
                                 <!-- Simple Menu Items -->
                                 <div class="dropdown-content">
-                                    <a href="#" class="dropdown-item" onclick="goToProfile()">
+                                    <a href="{{ route('guardian.profile') }}" class="dropdown-item">
                                         <i class="fas fa-user dropdown-icon"></i>
                                         <span class="dropdown-text">My Profile</span>
                                     </a>
                                     
-                                    <a href="#" class="dropdown-item danger" onclick="logout()">
+                                    <a href="{{ route('logout') }}" class="dropdown-item danger">
                                         <i class="fas fa-sign-out-alt dropdown-icon"></i>
                                         <span class="dropdown-text">Logout</span>
                                     </a>
+                                    
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
     </nav>
+    <script>
+        function toggleDropdown() {
+            var menu = document.getElementById('dropdownMenu');
+            if (menu.style.display === 'none' || menu.style.display === '') {
+                menu.style.display = 'block';
+            } else {
+                menu.style.display = 'none';
+            }
+        }
+        // Optional: Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            var dropdown = document.getElementById('userDropdown');
+            var menu = document.getElementById('dropdownMenu');
+            if (!dropdown.contains(event.target)) {
+                menu.style.display = 'none';
+            }
+        });
+    </script>

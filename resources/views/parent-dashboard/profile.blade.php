@@ -18,110 +18,105 @@
 
     <!-- Main Dashboard -->
     <div class="main-container">
-        
-        <div class="profile-container">
-            <h2 class="profile-title">Parent Profile</h2>
-            <div class="profile-card">
-                <div class="profile-details">
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <td>{{ Auth::user()->name }}</td>
-                        </tr>
-                        <tr>
-                            <th>Email</th>
-                            <td>{{ Auth::user()->email }}</td>
-                        </tr>
-                        <tr>
-                            <th>Phone</th>
-                            <td>{{ Auth::user()->phone ?? 'N/A' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Address</th>
-                            <td>{{ Auth::user()->address ?? 'N/A' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Registered At</th>
-                            <td>{{ Auth::user()->created_at->format('d M Y') }}</td>
-                        </tr>
-                    </table>
+     
+        <!-- Update Profile Form -->
+        <div class="row mt-5">
+            <div class="col-md-12 p-5 pt-3">
+                <div class="card card-outline card-primary form-card">
+                    <div class="card-header">
+                        <h3 class="card-title pt-2 pb-2"> Update Profile</h3>
+                    </div>
+                    {!! Form::open([
+                        'route' => 'profile.update',
+                        'method' => 'post',
+                        'id' => 'form_id',
+                        'enctype' => 'multipart/form-data',
+                        'files' => true,
+                        'role' => 'form',
+                    ]) !!}
+
+                    <div class="row p-4">
+                        <div class="col-md-12">
+                            <div class="form-group row has-feedback">
+                                <div id="browseimagepp">
+                                    <div class="row">
+                                        <input type="hidden" name="id" value="{{ Auth::user()->id }}">
+                                        <div class="col-md-12 addImages">
+                                            <label class="center-block image-upload" for="user_pic">
+                                                <figure>
+                                                    <img
+                                                        src="{{ !empty(Auth::user()->image) ? url(Auth::user()->image) : url('images/no_image.png') }}"
+                                                        class="img-responsive img-thumbnail" id="user_pic_preview"
+                                                        width="150px" height="150px">
+                                                </figure>
+                                                <input type="hidden" id="user_pic_base64" name="user_pic_base64" value="">
+                                                @if(!empty(Auth::user()->image))
+                                                    <input type="hidden" name="user_pic" value="{{ Auth::user()->image }}"/>
+                                                @endif
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 pb-3">
+                            <h4 id="profile_image">
+                                <label for="user_pic" class="required-star ">Profile image</label>
+                            </h4>
+                            <p class="text-success fw-bold small">[File Format: *.jpg/ .jpeg/ .png | Width 300PX, Height 300PX]</p>
+                            <span id="user_err" class="text-danger" style="font-size: 10px;"></span>
+                            <input type="file" class="form-control" name="user_pic" id="user_pic"
+                                   onchange="imageUploadWithCroppingAndDetect(this, 'user_pic_preview', 'user_pic_base64')"
+                                   size="300x300">
+                        </div>
+
+                        <div class="col-md-12 {{$errors->has('email') ? 'has-error' : ''}}">
+                            {!! Form::label('email','Email:',['class'=>'control-label required-star pb-1']) !!}
+                            <div class="pb-3">
+                                {!! Form::text('email', Auth::user()->email, ['class' => 'form-control required']) !!}
+                                {!! $errors->first('email','<span class="help-block">:message</span>') !!}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 {{$errors->has('name') ? 'has-error' : ''}}">
+                            {!! Form::label('name','User Name:',['class'=>'control-label required-star pb-1']) !!}
+                            <div class="pb-3">
+                                {!! Form::text('name', Auth::user()->name, ['class' => 'form-control required']) !!}
+                                {!! $errors->first('name','<span class="help-block">:message</span>') !!}
+                            </div>
+                        </div>
+
+                       
+
+                        <div class="col-md-12">
+                            <button class="btn btn-primary">Update</button>
+                            <a href="{{ url('reset_password') }}" class="btn btn-primary">Reset Password</a>
+                        </div>
+                    </div>
+
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
-        <style>
-            .profile-container {
-                max-width: 500px;
-                margin: 30px auto;
-                background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
-                border-radius: 18px;
-                box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-                padding: 32px 24px;
-                transition: box-shadow 0.2s;
-            }
-            .profile-container:hover {
-                box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-            }
-            .profile-title {
-                text-align: center;
-                font-size: 2rem;
-                font-weight: 700;
-                color: #374151;
-                margin-bottom: 28px;
-                letter-spacing: 1px;
-            }
-            .profile-card {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .profile-details table {
-                width: 100%;
-                border-collapse: separate;
-                border-spacing: 0 12px;
-            }
-            .profile-details th,
-            .profile-details td {
-                padding: 10px 12px;
-                font-size: 1rem;
-            }
-            .profile-details th {
-                text-align: left;
-                color: #6366f1;
-                font-weight: 600;
-                background: transparent;
-                width: 140px;
-                border-radius: 8px 0 0 8px;
-            }
-            .profile-details td {
-                color: #334155;
-                background: #f1f5f9;
-                border-radius: 0 8px 8px 0;
-                font-weight: 500;
-            }
-            @media (max-width: 600px) {
-                .profile-container {
-                    padding: 18px 6px;
-                    max-width: 98vw;
-                }
-                .profile-title {
-                    font-size: 1.3rem;
-                }
-                .profile-details th,
-                .profile-details td {
-                    font-size: 0.95rem;
-                    padding: 8px 6px;
-                }
-                .profile-details th {
-                    width: 90px;
-                }
-            }
-        </style>
 
+      
     </div>
+
+
+    @include('plugins/image_upload')
 
 
 @endsection
 
 @section('scripts')
+
+    <script type="text/javascript" src="{{ asset('plugins/jquery-validation/jquery.validate.js') }}"></script>
+    <script src="{{asset('plugins/select2/js/select2.min.js')}}"></script>
+
+
+    <script>
+        
+    </script>
    
 @endsection

@@ -47,11 +47,9 @@
                         <div class="search-suggestions">
                             <p class="text-muted mb-2">Popular searches:</p>
                             <div class="suggestion-chips">
-                                <span class="suggestion-chip" onclick="quickSearch('New York, NY')">New York, NY</span>
-                                <span class="suggestion-chip" onclick="quickSearch('Los Angeles, CA')">Los Angeles, CA</span>
-                                <span class="suggestion-chip" onclick="quickSearch('Chicago, IL')">Chicago, IL</span>
-                                <span class="suggestion-chip" onclick="quickSearch('Houston, TX')">Houston, TX</span>
-                                <span class="suggestion-chip" onclick="quickSearch('Miami, FL')">Miami, FL</span>
+                                @foreach($popularCenters as $center)
+                                    <span class="suggestion-chip" onclick="quickSearch('{{ $center }}')">{{ $center }}</span>
+                                @endforeach
                             </div>
                         </div>
                     </div>

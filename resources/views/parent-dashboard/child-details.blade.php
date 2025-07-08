@@ -17,7 +17,7 @@
     
 
     <!-- Main Dashboard -->
-    <div class="main-container">
+    <div class="main-container mt-4">
         
         <!-- Main Container -->
     <div class="container">
@@ -38,37 +38,7 @@
             </button>
         </div>
 
-        <!-- Stats Overview -->
-        <div class="stats-overview">
-            <div class="stat-card">
-                <div class="stat-icon total">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="stat-value">2</div>
-                <div class="stat-label">Total Children</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon up-to-date">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="stat-value">1</div>
-                <div class="stat-label">Up to Date</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon pending">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="stat-value">1</div>
-                <div class="stat-label">Pending Vaccines</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon overdue">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </div>
-                <div class="stat-value">0</div>
-                <div class="stat-label">Overdue</div>
-            </div>
-        </div>
+       
 
         <!-- Children Section -->
         <div class="children-section">
@@ -77,16 +47,7 @@
                     <i class="fas fa-list"></i>
                     Registered Children
                 </h2>
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn btn-outline btn-sm" onclick="exportRecords()">
-                        <i class="fas fa-download"></i>
-                        Export Records
-                    </button>
-                    <button class="btn btn-secondary btn-sm" onclick="printRecords()">
-                        <i class="fas fa-print"></i>
-                        Print
-                    </button>
-                </div>
+                
             </div>
 
             <div class="children-grid">

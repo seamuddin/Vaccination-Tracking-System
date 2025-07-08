@@ -17,7 +17,7 @@
 {
     display: flex;
     justify-content: space-between;
-    border-bottom: 2px solid #696cff;
+    border-bottom: 2px solid #006A4E;
     padding: 10px 25px;
 }
 .card-primary .card-title
@@ -92,13 +92,13 @@
 
 
 :root {
-    --primary-color: #4F46E5;
-    --secondary-color: #7C3AED;
-    --accent-color: #818CF8;
+    --primary-color: #006a4e;
+    --secondary-color: #006a4e;
+    --accent-color: #006a4e;
     --background-light: #F5F3FF;
     --text-primary: #1F2937;
     --text-secondary: #4B5563;
-    --primary-hover: #4338CA;
+    --primary-hover: #006a4e;
     --success-color: #10B981;
     --warning-color: #F59E0B;
     --danger-color: #EF4444;

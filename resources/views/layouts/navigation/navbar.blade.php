@@ -8,6 +8,25 @@
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <!-- Search -->
+        @if(Auth::check() && Auth::user()->role && Auth::user()->role->slug === 'admin')
+            <div class="navbar-brand app-brand demo d-none d-xl-flex py-0">
+                <span class="app-brand-text menu-text fw-bold ms-2">Admin Dashboard</span>
+            </div>
+        @elseif(Auth::check() && Auth::user()->role && Auth::user()->role->slug === 'health-worker')
+            <div class="navbar-brand app-brand demo d-none d-xl-flex py-0">
+                <span class="app-brand-text menu-text fw-bold ms-2">Health Worker Dashboard</span>
+            </div>
+        @elseif(Auth::check() && Auth::user()->role && Auth::user()->role->slug === 'parent')
+            <div class="navbar-brand app-brand demo d-none d-xl-flex py-0">
+                <span class="app-brand-text menu-text fw-bold ms-2">Parent/Guardian Dashboard</span>
+            </div>
+        @endif
+        <!-- /Search -->
+    </div>
+
+
+    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+        <!-- Search -->
         <!-- <div class="navbar-nav align-items-center">
             <div class="nav-item d-flex align-items-center">
                 <i class="bx bx-search fs-4 lh-0"></i>
@@ -23,6 +42,7 @@
         <ul class="navbar-nav flex-row align-items-center ms-auto">
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
+
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
 

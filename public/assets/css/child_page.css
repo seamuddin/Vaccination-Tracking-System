@@ -1,3 +1,4 @@
+
 :root {
     --bd-green: #006A4E;
     --bd-red: #ff0000;
@@ -93,7 +94,6 @@ body {
 /* Main Container */
 .container {
     max-width: 1200px;
-    margin: 2rem auto;
     padding: 0 2rem;
 }
 
@@ -157,7 +157,7 @@ body {
 }
 
 .btn-primary {
-    background: var(--bd-green);
+    background: var(--bd-green)!important;
     color: var(--white);
 }
 
@@ -178,13 +178,13 @@ body {
 
 .btn-outline {
     background: transparent;
-    color: var(--bd-green);
-    border: 2px solid var(--bd-green);
+    color: var(--bd-green)!important;
+    border: 2px solid var(--bd-green)!important;
 }
 
 .btn-outline:hover {
-    background: var(--bd-green);
-    color: var(--white);
+    background: var(--bd-green)!important;
+    color: var(--white)!important;
 }
 
 /* Stats Overview */
@@ -319,10 +319,12 @@ body {
 }
 
 .child-header {
-    display: flex;
-    align-items: flex-start;
+        display: flex;
+    align-items: center;
     gap: 1.5rem;
     margin-bottom: 2rem;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .child-avatar {
@@ -348,6 +350,7 @@ body {
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 0.5rem;
+    text-align: center;
 }
 
 .child-details {
@@ -364,9 +367,10 @@ body {
 }
 
 .child-actions {
-    display: flex;
+        display: flex;
     gap: 0.5rem;
     margin-top: 1rem;
+    flex-direction: row;
 }
 
 .btn-sm {
@@ -524,65 +528,7 @@ body {
     margin: 0 auto 2rem;
 }
 
-/* Modal Styles */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-}
 
-.modal.active {
-    display: flex;
-}
-
-.modal-content {
-    background: var(--white);
-    border-radius: 16px;
-    padding: 2rem;
-    max-width: 600px;
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-light);
-}
-
-.modal-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--text-secondary);
-    padding: 0.5rem;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-}
-
-.close-btn:hover {
-    background: var(--gray-100);
-    color: var(--text-primary);
-}
 
 /* Form Styles */
 .form-group {

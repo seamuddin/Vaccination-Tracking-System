@@ -18,7 +18,19 @@ class FrontendController extends Controller
     public function home()
     {
         try {
-            return view('frontend.pages.home');
+            // Get the most popular vaccination center based on the number of vaccination records
+            $popularCenters = DB::table('vaccination_records as vr')
+                ->join('vaccination_centers as vc', 'vr.vaccination_center_id', '=', 'vc.id')
+                ->select('vc.id', 'vc.name', DB::raw('COUNT(vr.id) as total_visits'))
+                ->groupBy('vc.id', 'vc.name')
+                ->orderByDesc('total_visits')
+                ->limit(5)
+                ->get();
+
+            $allCenters = DB::table('vaccination_centers')->get();
+
+            // Optionally, pass $popularCenter to the view if needed
+            return view('frontend.pages.home', compact('popularCenters', 'allCenters'));
         } catch (Exception $e) {
             Log::error("Error occurred in FrontendController@home ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
             return view('frontend.index', ['error' => 'Unable to retrieve frontend data.']);

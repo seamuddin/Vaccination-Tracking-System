@@ -44,9 +44,9 @@
     </div>
 </div>
 
-<script src="{{ asset("plugins/croppie-2.6.2/croppie.min.js") }}"></script>
-<script src="{{ asset("plugins/facedetection.js") }}" type="text/javascript"></script>
-<link rel="stylesheet" href="{{ asset("plugins/croppie-2.6.2/croppie.min.css") }}">
+<script src="{{ asset('plugins/croppie-2.6.2/croppie.min.js') }}"></script>
+<script src="{{ asset('plugins/facedetection.js') }}" type="text/javascript"></script>
+<link rel="stylesheet" href="{{ asset('plugins/croppie-2.6.2/croppie.min.css') }}">
 <script>
 
     // Start upload preview image
@@ -96,8 +96,10 @@
 
 
             var reader = new FileReader();
+
             reader.onload = function (e) {
                 // Show Modal
+                debugger;
                 $('#' + Image_upload_modal_id).modal('show');
 
                 // re-set upload cropping area
@@ -114,7 +116,6 @@
     }
 
     function imageUploadWithCroppingAndDetect(input, img_preview_id, base64_value_target) {
-
         if (input.files && input.files[0]) {
             // Validate Image type
             var mime_type = input.files[0].type;
@@ -146,9 +147,12 @@
             face_detect = true;
 
             var reader = new FileReader();
+
             reader.onload = function (e) {
                 // Show Modal
                 $('#' + Image_upload_modal_id).modal('show');
+
+
 
                 // Create image element to face detect
                 document.getElementById('upload_crop_area').innerHTML = "";
@@ -179,8 +183,10 @@
     If caused by a click, the clicked element is available as the relatedTarget property of the event.
 
     */
+    // This event is triggered when the modal is fully shown to the user.
+    // At this point, the cropping area is initialized and, if enabled, face detection will start.
     $('#' + Image_upload_modal_id).on('shown.bs.modal', function () {
-
+        alert('Image upload modal is shown');
         // If already croppie initiated, then destroy it
         if (upload_crop_area.data('croppie')) {
             upload_crop_area.croppie('destroy');
@@ -191,7 +197,6 @@
         document.getElementById('upload_crop_area').style.height = (viewport_height + 50) + "px";
 
         if (face_detect) {
-
             // disable cropping button
             $('#button_area').css('display', 'none');
             $('#cropping_msg').css('display', 'block');

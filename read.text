@@ -28,3 +28,6 @@ color:
     --shadow-light: 0 2px 4px rgba(0,0,0,0.1);
     --shadow-medium: 0 4px 12px rgba(0,0,0,0.15);
 }
+10. During Vaccination it have to check previous dose given or not and if not given then it have to show the message
+11. Check the unique that the vaccination already given 
+12. During Vaccination vaccination center need to check 

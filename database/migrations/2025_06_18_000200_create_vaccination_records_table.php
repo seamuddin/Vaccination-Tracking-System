@@ -15,7 +15,9 @@ return new class extends Migration {
             $table->date('date_given')->nullable();
             $table->date('next_due_date')->nullable();
             $table->enum('status', ['scheduled', 'given', 'missed'])->default('scheduled');
+            $table->foreignId('vaccination_center_id')->constrained('vaccination_centers')->onDelete('cascade');
             $table->foreignId('health_worker_id')->nullable()->constrained('users')->onDelete('set null'); // if you have user accounts
+
             $table->timestamps();
         });
     }

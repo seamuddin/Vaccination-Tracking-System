@@ -61,33 +61,17 @@
             // Simulate API call with timeout
             setTimeout(() => {
                 const mockResults = [
-                    {
-                        name: "City Health Center",
-                        address: "123 Main St, " + location,
-                        distance: "0.5 miles",
-                        phone: "(555) 123-4567",
-                        hours: "Mon-Fri: 8AM-5PM",
-                        rating: "4.8",
-                        services: "Pediatric & Adult Vaccines"
-                    },
-                    {
-                        name: "Family Medical Clinic",
-                        address: "456 Oak Ave, " + location,
-                        distance: "1.2 miles",
-                        phone: "(555) 987-6543",
-                        hours: "Mon-Sat: 9AM-6PM",
-                        rating: "4.6",
-                        services: "Walk-ins Welcome"
-                    },
-                    {
-                        name: "Pediatric Care Center",
-                        address: "789 Pine Rd, " + location,
-                        distance: "2.1 miles",
-                        phone: "(555) 456-7890",
-                        hours: "Mon-Fri: 7AM-7PM",
-                        rating: "4.9",
-                        services: "Specialized Pediatric Care"
-                    }
+                                @foreach ($allCenters as $center)
+                        {
+                            name: "{{ $center->name }}",
+                            address: "{{ $center->address ?? 'No address available' }}",
+                            distance: "{{ $center->distance ?? 'N/A' }}",
+                            phone: "{{ $center->phone ?? 'N/A' }}",
+                            hours: "{{ $center->hours ?? 'N/A' }}",
+                            rating: "{{ $center->rating ?? '4.5' }}",
+                            services: "{{ $center->services ?? 'General Services' }}"
+                        }@if (!$loop->last),@endif
+                        @endforeach
                 ];
 
                 let resultsHTML = `<div class="row"><div class="col-12"><h4 class="mb-3">Found ${mockResults.length} vaccination centers near ${location}</h4></div></div>`;

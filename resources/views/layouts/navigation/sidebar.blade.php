@@ -1,7 +1,7 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
         <a href="javascript:void(0);" class="app-brand-link">
-           <h3 style="color:#5f61e6; font-weight:bold;z"> <i class="fas fa-syringe me-2"></i>VaxTracker</h3>
+           <h3 style="color:#006A4E; font-weight:bold;z"> <i class="fas fa-syringe me-2"></i>VaxTracker</h3>
         </a>
 {{--        <a href="" class="navbar-brand">--}}
 {{--            <h2 class="m-0 text-primary">VaxTracker</h2>--}}
@@ -42,6 +42,17 @@
                     <i class="menu-icon tf-icons fas fa-syringe"></i>
                     <div data-i18n="Vaccine"> Vaccine </div>
                 </a>
+            </li>
+        @endcan
+
+
+        <!-- Vaccination Center -->
+        @can('vaccination-center')
+            <li class="menu-item {{ Request::is('vaccination-center') || Request::is('vaccination-center/*') ? 'active' : '' }}">
+            <a href="{{ route('vaccinationcenter.list') }}" class="menu-link ">
+                <i class="menu-icon tf-icons fas fa-hospital-alt"></i>
+                <div data-i18n="Vaccination Center"> Vaccination Center </div>
+            </a>
             </li>
         @endcan
 

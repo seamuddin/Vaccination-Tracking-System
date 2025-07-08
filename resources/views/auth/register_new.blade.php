@@ -110,9 +110,9 @@
                         </div>
 
                         <div class="mb-3">
-                            {!! Form::label('mobile_number', 'মোবাইল নম্বর', ['class'=>'form-label bangla-text required-star']) !!}
-                            {!! Form::text('mobile_number', old('mobile_number'), ['class' => 'form-control required bangla-text','id' =>'mobile_number', 'placeholder' => 'মোবাইল নম্বর লিখুন', 'required' => true]) !!}
-                            {!! $errors->first('mobile_number','<span class="help-block">:message</span>') !!}
+                            {!! Form::label('mobile', 'মোবাইল নম্বর', ['class'=>'form-label bangla-text required-star']) !!}
+                            {!! Form::text('mobile', old('mobile'), ['class' => 'form-control required bangla-text','id' =>'mobile_number', 'placeholder' => 'মোবাইল নম্বর লিখুন', 'required' => true]) !!}
+                            {!! $errors->first('mobile','<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
                         
