@@ -7,3 +7,24 @@
 7. Birth Certificate number and attachment Mandatory in Registration
 8. NID Number Required in Parent Registration
 9. login and Registration Page Look need to change with e-gov system
+
+
+I need to prepare the parent profile in parent dashboard for vaccination system Child Vaccination UI which will mean that is vaccination system
+color: 
+:root {
+    --bd-green: #006A4E;
+    --bd-red: #ff0000;
+    --gov-blue: #0F4C75;
+    --light-green: #E8F5E8;
+    --light-red: #FFF0F0;
+    --light-blue: #F0F4F8;
+    --text-primary: #2C3E50;
+    --text-secondary: #5A6C7D;
+    --border-light: #E1E8ED;
+    --white: #FFFFFF;
+    --gray-50: #F8F9FA;
+    --gray-100: #E9ECEF;
+    --gray-200: #DEE2E6;
+    --shadow-light: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-medium: 0 4px 12px rgba(0,0,0,0.15);
+}

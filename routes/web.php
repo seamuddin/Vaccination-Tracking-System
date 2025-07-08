@@ -36,8 +36,8 @@ Route::group(array('middleware' => ['web', 'auth']), function () {
     Route::get('/child/profile/{id}', [FrontendController::class, 'childProfile'])->name('child.profile');
 
     Route::get('/child-vaccination-records/{id}', [FrontendController::class, 'childVaccinationRecords'])->name('child.vaccination.records');
-
     Route::get('/guardian/profile', [FrontendController::class, 'gurdianProfile'])->name('guardian.profile');
+    Route::get('/child/list', [FrontendController::class, 'childListDetails'])->name('guardian.child.list');
 
 });
 

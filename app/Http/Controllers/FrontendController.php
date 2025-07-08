@@ -143,6 +143,19 @@ class FrontendController extends Controller
     }
 
 
+    public function childListDetails()
+    {
+        try {
+            // Fetch all children for the authenticated user
+            $user = auth()->user();
+            $children = Child::where('parent_id', $user->id)->get();
+            return view('parent-dashboard.child-details', compact('children'));
+        } catch (Exception $e) {
+            Log::error("Error occurred in FrontendController@childListDetails ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            return view('parent-dashboard.child-list', ['error' => 'Unable to retrieve child list details.']);
+        }
+    }
+
 
 
 

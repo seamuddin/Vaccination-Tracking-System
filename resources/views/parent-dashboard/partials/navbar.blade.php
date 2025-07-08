@@ -11,12 +11,12 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ route('guardianPortfolio') }}">
-                            <i class="fas fa-home me-1"></i>Home
+                            <i class="fas fa-home me-1"></i>Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('child.register.form') }}">
-                            <i class="fas fa-user-plus me-1"></i>Register Child
+                        <a class="nav-link" href="{{ route('guardian.child.list') }}">
+                            <i class="fas fa-user-plus me-1"></i>My Children
                         </a>
                     </li>
                     <li class="nav-item">
@@ -32,9 +32,43 @@
                     </li>
                 </ul>
                 <div class="navbar-nav">
-                    <a href="{{ route('logout') }}" class="nav-link" href="logout.html">
-                        <i class="fas fa-sign-out-alt me-1"></i>Logout
-                    </a>
+                    <div class="user-menu">
+                        <div class="user-info">
+                            <div class="user-name">Fatima Rahman</div>
+                            <div class="user-role">Parent Account</div>
+                        </div>
+                        
+                        <div class="dropdown" id="userDropdown">
+                            <div class="user-avatar" onclick="toggleDropdown()">
+                                FR
+                            </div>
+                            
+                            <!-- Simple Dropdown Menu -->
+                            <div class="dropdown-menu">
+                                <!-- User Info Header -->
+                                <div class="dropdown-header">
+                                    <div class="dropdown-avatar">FR</div>
+                                    <div class="dropdown-user-info">
+                                        <div class="dropdown-user-name">Fatima Rahman</div>
+                                        <div class="dropdown-user-email">fatima.rahman@email.com</div>
+                                    </div>
+                                </div>
+
+                                <!-- Simple Menu Items -->
+                                <div class="dropdown-content">
+                                    <a href="#" class="dropdown-item" onclick="goToProfile()">
+                                        <i class="fas fa-user dropdown-icon"></i>
+                                        <span class="dropdown-text">My Profile</span>
+                                    </a>
+                                    
+                                    <a href="#" class="dropdown-item danger" onclick="logout()">
+                                        <i class="fas fa-sign-out-alt dropdown-icon"></i>
+                                        <span class="dropdown-text">Logout</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
