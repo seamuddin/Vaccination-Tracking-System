@@ -39,6 +39,8 @@ Route::group(array('middleware' => ['web', 'auth']), function () {
     Route::get('/guardian/profile', [FrontendController::class, 'gurdianProfile'])->name('guardian.profile');
     Route::get('/child/list', [FrontendController::class, 'childListDetails'])->name('guardian.child.list');
 
+    Route::get('/gurdian/reset-password', [FrontendController::class, 'gurdian_reset_password'])->name('guardian_reset_password');
+    Route::post('/gurdian/reset-password', [FrontendController::class, 'gurdian_reset_password_update'])->name('gurdian_reset_password_update');
 });
 
 Route::get( 'logout', array( LoginController::class, 'logout' ) )->name( 'logout' );

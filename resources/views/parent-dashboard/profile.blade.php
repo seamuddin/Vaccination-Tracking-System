@@ -80,7 +80,7 @@
 
                         <div class="col-md-12">
                             <button class="btn btn-primary">Update</button>
-                            <a href="{{ url('reset_password') }}" class="btn btn-primary">Reset Password</a>
+                            <a href="{{ url('/gurdian/reset-password') }}" class="btn btn-primary">Reset Password</a>
                         </div>
                     </div>
 

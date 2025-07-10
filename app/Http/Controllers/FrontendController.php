@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Modules\Child\Models\Child;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class FrontendController extends Controller
 {
@@ -169,6 +174,37 @@ class FrontendController extends Controller
     }
 
 
+    public function gurdian_reset_password():View
+    {
+        $data['data'] = Auth::user();
+        return view( 'parent-dashboard.reset-password', $data);
+    }
+    public function gurdian_reset_password_update(Request $request):RedirectResponse
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|min:8|max:20'
+        ]);
+
+        try {
+            $user = Auth::user();
+            if (Hash::check($request->get('old_password'), $user->password))
+            {
+                $user->password = Hash::make($request->get('new_password'));
+                $user->save();
+            } else
+            {
+                Session::flash( 'error', "Password Not Matched [UPC-103]" );
+                return Redirect::back()->withInput();
+            }
+            Session::flash( 'success', 'Password reset successful!' );
+            return Redirect::back()->withInput();
+        } catch ( Exception $e ) {
+            Log::error( "Error occurred in AuthPasswordController@update_password ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}" );
+            Session::flash( 'error', "Something went wrong during application data store [APC-103]" );
+            return Redirect::back()->withInput();
+        }
+    }
 
 
 
