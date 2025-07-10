@@ -1,23 +1,12 @@
-@extends('parent-dashboard.index')
-@section('title')
-    Parent Dashboard - VaxTracker
-@endsection
-@section('styles')
-    <link rel="stylesheet" href="{{ asset('assets/css/parent_dashboard.css') }}" />
-    <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/child-registration.css') }}">
-    <style>
-        .select2 {
-            width: 100% !important;
-        }
-    </style>
+@extends('parent-dashboard.main')
+@section('header-resources')
+
 @endsection
 
-@section('content')
-    
+@section('body')
 
-    <!-- Main Dashboard -->
-    <div class="main-container">
+
+ <div class="main-container">
      
         <!-- Update Profile Form -->
         <div class="row mt-5">
@@ -100,23 +89,8 @@
             </div>
         </div>
 
-      
-    </div>
-
+</div>
 
     @include('plugins/image_upload')
 
-
-@endsection
-
-@section('scripts')
-
-    <script type="text/javascript" src="{{ asset('plugins/jquery-validation/jquery.validate.js') }}"></script>
-    <script src="{{asset('plugins/select2/js/select2.min.js')}}"></script>
-
-
-    <script>
-        
-    </script>
-   
 @endsection

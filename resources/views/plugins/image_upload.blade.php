@@ -186,7 +186,6 @@
     // This event is triggered when the modal is fully shown to the user.
     // At this point, the cropping area is initialized and, if enabled, face detection will start.
     $('#' + Image_upload_modal_id).on('shown.bs.modal', function () {
-        alert('Image upload modal is shown');
         // If already croppie initiated, then destroy it
         if (upload_crop_area.data('croppie')) {
             upload_crop_area.croppie('destroy');

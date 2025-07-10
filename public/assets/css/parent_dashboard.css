@@ -1,18 +1,28 @@
-
 :root {
-    --primary-color: #4F46E5;
-    --secondary-color: #7C3AED;
-    --accent-color: #818CF8;
+    --primary-color: #006a4e;
+    --secondary-color: #006a4e;
+    --accent-color: #006a4e;
     --background-light: #F5F3FF;
     --text-primary: #1F2937;
     --text-secondary: #4B5563;
-    --primary-hover: #4338CA;
-    --success-color: #10B981;
-    --warning-color: #F59E0B;
-    --danger-color: #EF4444;
+    --primary-hover: #006a4e;
+    --success-color: #198754;
     --soft-gray: #F8F9FA;
+    --danger-color: #DC3545;
+    --warning-color: #FFC107;
     --border-light: #E5E7EB;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.2);
+    --shadow-dark: rgba(0, 0, 0, 0.3);
     --white: #FFFFFF;
+    --light-green: #D1FAE5;
+    --bd-green: #16A34A;
+    --bd-red: #DC2626;
+    --light-red: #FEE2E2;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;    
 }
 
 * {
@@ -927,4 +937,23 @@ body {
 .dropdown-text {
     flex: 1;
     font-weight: 500;
+}
+
+.footer-content  {
+    color: white!important;
+}
+
+.footer-content h1,
+.footer-content .h1,
+.footer-content h2,
+.footer-content .h2,
+.footer-content h3,
+.footer-content .h3,
+.footer-content h4,
+.footer-content .h4,
+.footer-content h5,
+.footer-content .h5,
+.footer-content h6,
+.footer-content .h6 {
+    color: white !important;
 }
