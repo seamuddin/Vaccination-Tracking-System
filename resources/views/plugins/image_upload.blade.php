@@ -31,11 +31,11 @@
                 <div id="cropping_msg" class="alert alert-info text-center" style="width: 100%; display: none;">
                     <i class="fa fa-spinner fa-pulse"></i> Please wait, Face detecting
                 </div>
-                <div id="button_area"  style="width: 100%; display: block;">
-                    <div class="float-left">
+                <div id="button_area"  style="width: 100%; display: flex;  gap: 10px;">
+                    <div class="">
                         <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
                     </div>
-                    <div class="float-right">
+                    <div class="">
                         <button type="button" id="cropImageBtn" class="btn btn-primary">Save</button>
                     </div>
                 </div>
@@ -198,7 +198,7 @@
         if (face_detect) {
             // disable cropping button
             $('#button_area').css('display', 'none');
-            $('#cropping_msg').css('display', 'block');
+            $('#cropping_msg').css('display', 'flex');
 
 
 
@@ -217,14 +217,14 @@
                                 enableResize: false, // Enable or disable support for resizing the viewport area
                             });
 
-                            $('#button_area').css('display', 'block');
+                            $('#button_area').css('display', 'flex');
                             $('#cropping_msg').css('display', 'none');
                         } else {
                             toastr.error(" ", 'Given image is not valid! (Can\'t recognize any face)', {
                                 positionClass: "toast-top-center",
                             });
 
-                            $('#button_area').css('display', 'block');
+                            $('#button_area').css('display', 'flex');
                             $('#cropping_msg').css('display', 'none');
 
 
