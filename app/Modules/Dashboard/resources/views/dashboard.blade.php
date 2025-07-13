@@ -2,16 +2,13 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row">
             <!-- Welcome Card -->
-            <div class="col-lg-8 col-md-12 col-12 mb-4 order-0">
+            <div class="col-lg-12 col-md-12 col-12 mb-4 order-0">
                 <div class="card welcome-card">
                     <div class="d-flex align-items-end row">
                         <div class="col-sm-7">
                             <div class="card-body welcome-content">
                                 <h5 class="card-title text-white">Welcome back, {{ $user->name }}</h5>
-                                <p class="mb-4 text-white-50">
-                                    You have administered <span class="fw-bold text-white">28 vaccines</span> this week. 
-                                    <span class="fw-bold text-white">12 children</span> are due for vaccinations today.
-                                </p>
+                               
                                 <a href="#due-vaccines" class="btn btn-outline-light">View Due Vaccines</a>
                             </div>
                         </div>
@@ -24,45 +21,7 @@
                 </div>
             </div>
 
-            <!-- Quick Stats -->
-            <div class="col-lg-4 col-md-12 col-12 mb-4">
-                <div class="card">
-                            <div class="card-header">
-                                <h6 class="m-0">Vaccination Progress</h6>
-                            </div>
-                            <div class="card-body pt-2">
-                                <div class="progress-item">
-                                    <div class="progress-header">
-                                        <span class="progress-label">0-12 Months</span>
-                                        <span class="progress-value">92%</span>
-                                    </div>
-                                    <div class="progress-bar-custom">
-                                        <div class="progress-fill" style="width: 92%"></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="progress-item">
-                                    <div class="progress-header">
-                                        <span class="progress-label">1-4 Years</span>
-                                        <span class="progress-value">87%</span>
-                                    </div>
-                                    <div class="progress-bar-custom">
-                                        <div class="progress-fill" style="width: 87%"></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="progress-item">
-                                    <div class="progress-header">
-                                        <span class="progress-label">5-18 Years</span>
-                                        <span class="progress-value">94%</span>
-                                    </div>
-                                    <div class="progress-bar-custom">
-                                        <div class="progress-fill" style="width: 94%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-            </div>
+           
         </div>
 
         <div class="row">
@@ -86,12 +45,7 @@
                                     <span>Quick Vaccination</span>
                                 </a>
                             </div>
-                            <div class="col-md-4 col-12">
-                                <button class="btn btn-outline-info p-4 w-100 h-100 d-flex flex-column align-items-center justify-content-center" onclick="viewReports()">
-                                    <i class="fas fa-chart-bar fa-2x mb-2"></i>
-                                    <span>View Reports</span>
-                                </button>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -281,89 +235,6 @@
             </div>
         </div>
 
-        <!-- Recent Activity & Quick Actions -->
-        <div class="row">
-            <!-- Recent Activity -->
-            <div class="col-md-12 col-lg-12 order-0 mb-4">
-                <div class="card h-100">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="m-0">Recent Activity</h5>
-                        <div class="dropdown">
-                            <button class="btn p-0" type="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="#">View All</a>
-                                <a class="dropdown-item" href="#">Export</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="activity-item">
-                            <div class="activity-icon completed">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div class="activity-details">
-                                <div class="activity-title">DTaP vaccine administered to Emma Johnson</div>
-                                <div class="activity-time">2 minutes ago</div>
-                            </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon registered">
-                                <i class="fas fa-user-plus"></i>
-                            </div>
-                            <div class="activity-details">
-                                <div class="activity-title">New child registered: Baby Rodriguez</div>
-                                <div class="activity-time">15 minutes ago</div>
-                            </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon completed">
-                                <i class="fas fa-syringe"></i>
-                            </div>
-                            <div class="activity-details">
-                                <div class="activity-title">6-month vaccines given to Maya Rodriguez</div>
-                                <div class="activity-time">32 minutes ago</div>
-                            </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon scheduled">
-                                <i class="fas fa-calendar"></i>
-                            </div>
-                            <div class="activity-details">
-                                <div class="activity-title">Appointment scheduled for Alex Smith</div>
-                                <div class="activity-time">1 hour ago</div>
-                            </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon completed">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div class="activity-details">
-                                <div class="activity-title">MMR vaccine administered to Sophie Chen</div>
-                                <div class="activity-time">1 hour ago</div>
-                            </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon registered">
-                                <i class="fas fa-file-medical"></i>
-                            </div>
-                            <div class="activity-details">
-                                <div class="activity-title">Vaccination record updated for Liam Johnson</div>
-                                <div class="activity-time">2 hours ago</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            
-        </div>
     </div>
 
     <!-- Administer Vaccine Modal -->

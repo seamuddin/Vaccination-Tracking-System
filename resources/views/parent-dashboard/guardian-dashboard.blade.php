@@ -1,15 +1,13 @@
-@extends('parent-dashboard.index')
-@section('title')
-    Parent Dashboard - VaxTracker
-@endsection
-@section('styles')
+@extends('parent-dashboard.main')
+@section('header-resources')
+
     <link rel="stylesheet" href="{{ asset('assets/css/parent_dashboard.css') }}" />
+
+
 @endsection
 
-@section('content')
-    
-
-    <!-- Main Dashboard -->
+@section('body')
+<!-- Main Dashboard -->
     <main class="dashboard-container">
         <div class="container">
             
@@ -30,43 +28,7 @@
             </div>
 
             <!-- Child Overview Cards -->
-            <div class="children-overview">
-                <h2 class="section-title">
-                    <i class="fas fa-child"></i>
-                    My Children
-                </h2>
-                
-                @foreach($children as $child)
-                    <div class="child-overview-card">
-                        <div class="child-header">
-                            <div class="child-info">
-                                <div class="child-avatar">
-                                    <i class="fas fa-child"></i>
-                                </div>
-                                <div class="child-details">
-                                    <h3>{{ $child->name }}</h3>
-                                    <div class="child-age">
-                                        {{ \Carbon\Carbon::parse($child->birthdate)->age }} years{{ \Carbon\Carbon::parse($child->birthdate)->diffInMonths(now()) % 12 > 0 ? ', ' . (\Carbon\Carbon::parse($child->birthdate)->diffInMonths(now()) % 12) . ' months' : '' }} old • Born: {{ \Carbon\Carbon::parse($child->birthdate)->format('F d, Y') }}
-                                    </div>
-                                    <div class="vaccination-summary">
-                                        <span class="summary-text">Vaccination Progress:</span>
-                                        <span class="summary-fraction">{{ $child->dose_summary['given_count'] }} / {{ $child->dose_summary['total_count'] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="child-actions">
-                                <a href="{{ route('child.vaccination.records', ['id' => $child->id]) }}" class="btn-view-profile">
-                                    <i class="fas fa-eye me-1"></i>Vaccination Record
-                                </a>
-                                <a href="#" class="btn-download" onclick="downloadCertificate({{ $child->id }})">
-                                    <i class="fas fa-download me-1"></i>Download PDF
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-
-            </div>
+           
 
             <!-- Vaccination Progress Tracker -->
             
@@ -190,7 +152,12 @@
         </div>
     </main>
 
-   
+
+@endsection
+
+
+@section('footer-script')
+
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     

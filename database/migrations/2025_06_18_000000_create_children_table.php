@@ -14,6 +14,8 @@ return new class extends Migration {
             $table->enum('gender', ['male', 'female', 'other'])->default('male');
             $table->string('guardian_name');
             $table->string('guardian_contact')->nullable();
+            $table->integer('birth_certificate_no');
+            $table->text('birth_certificate');
             $table->foreignId('parent_id')->nullable()->constrained('users')->onDelete('cascade'); // optional if you have user accounts
             $table->timestamps();
         });

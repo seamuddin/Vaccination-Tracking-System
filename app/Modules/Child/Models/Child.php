@@ -29,4 +29,54 @@ class Child extends Model
             'given_count' => $result->given_count ?? 0,
         ];
     }
+
+    public function getNextVaccineAttribute()
+    {
+        // Get all records for this child ordered by vaccine and dose
+        $records = DB::table('vaccination_records')
+            ->where('child_id', $this->id)
+            ->orderBy('vaccine_id')
+            ->orderBy('dose_number')
+            ->get();
+
+        foreach ($records as $record) {
+            if ($record->status !== 'given') {
+                // Get vaccine name from vaccines table
+                $vaccine = DB::table('vaccines')->where('id', $record->vaccine_id)->first();
+                return [
+                    'vaccine_id' => $record->vaccine_id,
+                    'vaccine_name' => $vaccine ? $vaccine->name : null,
+                    'dose_number' => $record->dose_number,
+                    'next_due_date' => $record->next_due_date,
+                    'status' => $record->status,
+                ];
+            }
+        }
+
+        // If all given, return null
+        return null;
+    }
+
+    public function getRecentGivenVaccinesAttribute()
+    {
+        $records = DB::table('vaccination_records')
+            ->where('child_id', $this->id)
+            ->where('status', 'given')
+            ->orderByDesc('date_given')
+            ->limit(2)
+            ->get();
+
+        $result = [];
+        foreach ($records as $record) {
+            $vaccine = DB::table('vaccines')->where('id', $record->vaccine_id)->first();
+            $result[] = [
+                'vaccine_id' => $record->vaccine_id,
+                'vaccine_name' => $vaccine ? $vaccine->name : null,
+                'dose_number' => $record->dose_number,
+                'date_given' => $record->date_given,
+            ];
+        }
+
+        return $result;
+    }
 }

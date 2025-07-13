@@ -30,7 +30,6 @@ Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::group(array('middleware' => ['web', 'auth']), function () {
     Route::get('/guardian_portfolio', [FrontendController::class, 'guardianPortfolio'])->name('guardianPortfolio');
     Route::get('/child/register', [FrontendController::class, 'childRegisterForm'])->name('child.register.form');
-    Route::get('/child/register', [FrontendController::class, 'childRegisterForm'])->name('child.register.form');
     Route::post('/child/register', [FrontendController::class, 'childRegisterStore'])->name('child.register.store');
 
     Route::get('/child/profile/{id}', [FrontendController::class, 'childProfile'])->name('child.profile');

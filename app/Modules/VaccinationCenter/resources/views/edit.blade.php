@@ -70,22 +70,7 @@
                             {!! $errors->first('google_place_id','<span class="help-block">:message</span>') !!}
                         </div>
                     </div>
-                    <!-- Latitude -->
-                    <div class="input-group row {{$errors->has('latitude') ? 'has-error' : ''}}">
-                        {!! Form::label('latitude','Latitude:',['class'=>'col-md-3 control-label']) !!}
-                        <div class="col-md-9">
-                            {!! Form::number('latitude', old('latitude', $center->latitude), ['class' => 'form-control']) !!}
-                            {!! $errors->first('latitude','<span class="help-block">:message</span>') !!}
-                        </div>
-                    </div>
-                    <!-- Longitude -->
-                    <div class="input-group row {{$errors->has('longitude') ? 'has-error' : ''}}">
-                        {!! Form::label('longitude','Longitude:',['class'=>'col-md-3 control-label']) !!}
-                        <div class="col-md-9">
-                            {!! Form::number('longitude', old('longitude', $center->longitude), ['class' => 'form-control']) !!}
-                            {!! $errors->first('longitude','<span class="help-block">:message</span>') !!}
-                        </div>
-                    </div>
+                    
                     <!-- Status (is_active) -->
                     <div class="input-group row {{$errors->has('is_active') ? 'has-error' : ''}}">
                         {!! Form::label('is_active','Status:',['class'=>'col-md-3 control-label required-star']) !!}

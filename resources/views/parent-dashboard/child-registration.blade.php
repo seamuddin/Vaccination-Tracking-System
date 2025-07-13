@@ -1,28 +1,28 @@
-@extends('parent-dashboard.index')
-@section('title')
-    Parent Dashboard - VaxTracker
-@endsection
-@section('styles')
+@extends('parent-dashboard.main')
+@section('header-resources')
+
     <link rel="stylesheet" href="{{ asset('assets/css/parent_dashboard.css') }}" />
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/child_page.css') }}">
+
     <link rel="stylesheet" href="{{ asset('assets/css/child-registration.css') }}">
     <style>
         .select2 {
             width: 100% !important;
         }
     </style>
+
 @endsection
 
-@section('content')
-    
+@section('body')
 
-    <!-- Main Dashboard -->
+<!-- Main Dashboard -->
     <div class="main-container">
         <div class="container">
             <!-- Page Title -->
-            <div class="page-title">
+            <div class="page-form-title">
                 <h2 class="mb-4 text-center">Register New Child</h2>
-                <p class="page-subtitle">Add a new child to the vaccination tracking system</p>
+                <p class=" text-center page-subtitle">Add a new child to the vaccination tracking system</p>
             </div>
 
             <!-- Info Box -->
@@ -45,73 +45,120 @@
 
             <!-- Registration Form -->
             <div class="card shadow-sm p-4 mx-auto fade-in" style="max-width: 500px;">
-                <form action="{{ route('child.register.store') }}" method="POST" id="child-registration-form" class="child-registration-form">
-                    @csrf
-                    
+                {!! Form::open([
+                    'route' => 'child.register.store',
+                    'method' => 'post',
+                    'id' => 'child-registration-form',
+                    'enctype' => 'multipart/form-data',
+                    'files' => true,
+                    'role' => 'form',
+                ]) !!}
+
                     <!-- Child's Name -->
-                    <div class="form-group mb-3">
-                        <label for="child_name" class="form-label required">Child's Name</label>
-                        <input type="text" 
-                               id="child_name" 
-                               name="child_name" 
-                               class="form-control" 
-                               required 
-                               placeholder="Enter child's full name"
-                               value="{{ old('child_name') }}">
+                    <div class="form-group mb-3 {{ $errors->has('name') ? 'has-error' : '' }}">
+                        {!! Form::label('name', "Child's Name", ['class' => 'form-label required']) !!}
+                        {!! Form::text('name', old('name'), [
+                            'class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''),
+                            'required' => true,
+                            'placeholder' => "Enter child's full name",
+                            'id' => 'child_name'
+                        ]) !!}
                         <div class="validation-icon" id="nameValidation"></div>
-                        @error('child_name')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        @if ($errors->has('name'))
+                            <div class="invalid-feedback" style="display:block;">
+                                {{ $errors->first('name') }}
+                            </div>
+                        @endif
                     </div>
 
                     <!-- Date of Birth -->
-                    <div class="form-group mb-3">
-                        <label for="dob" class="form-label required">Date of Birth</label>
-                        <input type="date" 
-                               id="dob" 
-                               name="dob" 
-                               class="form-control" 
-                               required
-                               value="{{ old('dob') }}"
-                               max="{{ date('Y-m-d') }}">
+                    <div class="form-group mb-3 {{ $errors->has('dob') ? 'has-error' : '' }}">
+                        {!! Form::label('dob', 'Date of Birth', ['class' => 'form-label required']) !!}
+                        {!! Form::date('dob', old('dob'), [
+                            'class' => 'form-control' . ($errors->has('dob') ? ' is-invalid' : ''),
+                            'required' => true,
+                            'id' => 'dob',
+                            'max' => date('Y-m-d')
+                        ]) !!}
                         <div class="validation-icon" id="dobValidation"></div>
                         <div class="age-display" id="ageDisplay" style="display: none;">
                             <i class="fas fa-birthday-cake me-2"></i>
                             <span id="ageText"></span>
                         </div>
-                        @error('dob')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        @if ($errors->has('dob'))
+                            <div class="invalid-feedback" style="display:block;">
+                                {{ $errors->first('dob') }}
+                            </div>
+                        @endif
                     </div>
 
                     <!-- Gender -->
-                    <div class="form-group mb-4">
-                        <label for="gender" class="form-label required">Gender</label>
-                        <select id="gender" 
-                                name="gender" 
-                                class="form-control select2" 
-                                required>
-                            <option value="">Select Gender</option>
-                            <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
-                            <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
-                            <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>Other</option>
-                        </select>
+                    <div class="form-group mb-3 {{ $errors->has('gender') ? 'has-error' : '' }}">
+                        {!! Form::label('gender', 'Gender', ['class' => 'form-label required']) !!}
+                        {!! Form::select('gender', [
+                            '' => 'Select Gender',
+                            'male' => 'Male',
+                            'female' => 'Female',
+                            'other' => 'Other'
+                        ], old('gender'), [
+                            'class' => 'form-control select2' . ($errors->has('gender') ? ' is-invalid' : ''),
+                            'required' => true,
+                            'id' => 'gender'
+                        ]) !!}
                         <div class="validation-icon" id="genderValidation"></div>
-                        @error('gender')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        @if ($errors->has('gender'))
+                            <div class="invalid-feedback" style="display:block;">
+                                {{ $errors->first('gender') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Birth Certificate Number -->
+                    <div class="form-group mb-3 {{ $errors->has('birth_certificate_no') ? 'has-error' : '' }}">
+                        {!! Form::label('birth_certificate_no', 'Birth Certificate Number', ['class' => 'form-label required']) !!}
+                        {!! Form::number('birth_certificate_no', old('birth_certificate_no'), [
+                            'class' => 'form-control' . ($errors->has('birth_certificate_no') ? ' is-invalid' : ''),
+                            'required' => true,
+                            'placeholder' => 'Enter birth certificate number',
+                            'id' => 'birth_certificate_no'
+                        ]) !!}
+                        @if ($errors->has('birth_certificate_no'))
+                            <div class="invalid-feedback" style="display:block;">
+                                {{ $errors->first('birth_certificate_no') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Birth Certificate File -->
+                    <div class="form-group mb-4 {{ $errors->has('birth_certificate') ? 'has-error' : '' }}">
+                        {!! Form::label('birth_certificate', 'Birth Certificate (Upload)', ['class' => 'form-label required']) !!}
+                        {!! Form::file('birth_certificate', [
+                            'class' => 'form-control' . ($errors->has('birth_certificate') ? ' is-invalid' : ''),
+                            'required' => true,
+                            'id' => 'birth_certificate',
+                            'accept' => '.pdf,.jpg,.jpeg,.png'
+                        ]) !!}
+                        @if ($errors->has('birth_certificate'))
+                            <div class="invalid-feedback" style="display:block;">
+                                {{ $errors->first('birth_certificate') }}
+                            </div>
+                        @endif
                     </div>
 
                     <!-- Form Actions -->
                     <div class="d-flex justify-content-between form-actions">
-                        <button type="reset" class="btn btn-outline-secondary" id="reset_button">
-                            <i class="fas fa-undo me-2"></i>Reset
-                        </button>
-                        <button type="submit" class="btn btn-primary" id="submitButton">
-                            <i class="fas fa-user-plus me-2"></i>Register Child
-                        </button>
+                        {!! Form::button('<i class="fas fa-undo me-2"></i>Reset', [
+                            'type' => 'reset',
+                            'class' => 'btn btn-outline-secondary',
+                            'id' => 'reset_button'
+                        ]) !!}
+                        {!! Form::button('<i class="fas fa-user-plus me-2"></i>Register Child', [
+                            'type' => 'submit',
+                            'class' => 'btn btn-primary',
+                            'id' => 'submitButton'
+                        ]) !!}
                     </div>
-                </form>
+                {!! Form::close() !!}
             </div>
 
             <!-- Next Steps Info -->
@@ -122,10 +169,10 @@
         </div>
     </div>
 
-
 @endsection
 
-@section('scripts')
+
+@section('footer-script')
          <script type="text/javascript" src="{{ asset('plugins/jquery-validation/jquery.validate.js') }}"></script>
     <script src="{{asset('plugins/select2/js/select2.min.js')}}"></script>
 
@@ -344,3 +391,4 @@
         });
     </script>
 @endsection
+

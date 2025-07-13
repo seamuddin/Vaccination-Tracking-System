@@ -10,12 +10,19 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Modules\Child\Models\Child;
+use App\Modules\Vaccine\Models\Vaccine;
+use App\Modules\Vaccine\Models\VaccinationRecord;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Carbon\Carbon;
+use yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\ChildRegistrationRequests;
 
 class FrontendController extends Controller
 {
@@ -89,14 +96,78 @@ class FrontendController extends Controller
         }
     }
 
-    public function childRegisterStore(Request $request)
+    public function childRegisterStore(ChildRegistrationRequests $request)
     {
+
         try {
-            // Validate and store the child registration data
-            // Assuming you have a Child model and appropriate validation rules
-            // $child = Child::create($request->all());
-            return redirect()->route('guardianPortfolio')->with('success', 'Child registered successfully.');
+            DB::beginTransaction();
+
+            $user = auth()->user();
+
+            // Handle file upload
+            $folder = 'children_certificate';
+            $storagePath = storage_path('app/public/' . $folder);
+
+            if (!file_exists($storagePath)) {
+            mkdir($storagePath, 0777, true);
+            }
+
+            if ($request->hasFile('birth_certificate')) {
+                $file = $request->file('birth_certificate');
+                $filename = 'birth_certificate_' . date('Ymd_His') . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $publicPath = public_path('uploads/' . $folder);
+                if (!file_exists($publicPath)) {
+                    mkdir($publicPath, 0777, true);
+                }
+                $file->move($publicPath, $filename);
+                $filePath = 'uploads/' . $folder . '/' . $filename;
+            } else {
+                $filePath = null;
+            }
+
+            // Generate unique card number
+            do {
+            $card_no = 'VACC-' . strtoupper(uniqid()) . rand(10000, 99999);
+            } while (\App\Modules\Child\Models\Child::where('card_no', $card_no)->exists());
+
+            // Store child data
+            $child = new Child();
+            $child->name = $request->input('name');
+            $child->date_of_birth = $request->input('dob');
+            $child->gender = $request->input('gender');
+            $child->guardian_name = $user->name;
+            $child->guardian_contact = $user->phone ?? null;
+            $child->birth_certificate_no = $request->input('birth_certificate_no');
+            $child->birth_certificate = $filePath;
+            $child->parent_id = $user->id;
+            $child->card_no = $card_no;
+            $child->save();
+
+            $vaccines = Vaccine::all();
+            $birthDate = \Carbon\Carbon::parse($child->date_of_birth);
+
+            foreach ($vaccines as $vaccine) {
+                for ($dose = 1; $dose <= $vaccine->number_of_doses; $dose++) {
+                    $dueDate = $birthDate->copy()->addDays(
+                    $vaccine->age_due_days + ($vaccine->dose_interval_days * ($dose - 1))
+                    );
+
+                    VaccinationRecord::create([
+                    'child_id' => $child->id,
+                    'vaccine_id' => $vaccine->id,
+                    'dose_number' => $dose,
+                    'next_due_date' => $dueDate,
+                    'status' => 'scheduled',
+                    'health_worker_id' => auth()->id(),
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('guardian.child.list')->with('success', 'Child registered successfully.');
         } catch (Exception $e) {
+            DB::rollBack();
             Log::error("Error occurred in FrontendController@childRegisterStore ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
             return redirect()->back()->withErrors(['error' => 'Unable to register child.']);
         }

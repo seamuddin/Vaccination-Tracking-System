@@ -90,6 +90,10 @@ class ChildControllers extends Controller
                 } else {
                     $child = new Child();
                 }
+                $card_no = '';
+                do {
+                    $card_no = 'VACC-' . strtoupper(uniqid()) . rand(10000, 99999);
+                } while (\App\Modules\Child\Models\Child::where('card_no', $card_no)->exists());
 
                 $child->name = $request->get('name');
                 $child->date_of_birth = $request->get('date_of_birth');
@@ -97,6 +101,7 @@ class ChildControllers extends Controller
                 $child->parent_id = $parent->id;
                 $child->guardian_name = $parent->name;
                 $child->guardian_contact = $request->get('parent_contact');
+                $child->card_no = $card_no;
                 $child->save();
 
                 // ✅ Add vaccination records if new child

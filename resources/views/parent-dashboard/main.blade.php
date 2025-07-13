@@ -69,6 +69,9 @@
 <!-- Layout wrapper -->
 
 <!-- Main Dashboard -->
+        <div class="container">
+                     @include('partials.messages')
+        </div>
          @yield('body')
 <!-- / Layout wrapper -->
         @include('parent-dashboard.partials.footer')
@@ -93,6 +96,6 @@
 <script type="text/javascript" src="{{ asset('plugins/jquery-validation/jquery.validate.js') }}"></script>
     <script src="{{asset('plugins/select2/js/select2.min.js')}}"></script>
 
-
+@yield('footer-script')
 </body>
 </html>

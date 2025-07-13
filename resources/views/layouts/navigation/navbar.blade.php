@@ -45,7 +45,6 @@
 
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-
                         <img
                             src="{{ !empty(Auth::user()->image) ? url(Auth::user()->image) : url('images/default.png') }}"
                             alt class="w-px-40 h-auto rounded-circle"/>
