@@ -23,6 +23,7 @@ use yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ChildRegistrationRequests;
+use Illuminate\Support\Facades\Redirect;
 
 class FrontendController extends Controller
 {
