@@ -500,6 +500,9 @@ class FrontendController extends Controller
                     ->addColumn('vaccine_name', function ($appointment) {
                         return $appointment->vaccine->name ?? '';
                     })
+                    ->addColumn('vaccine_dose', function ($appointment) {
+                        return 'Dose '.$appointment->dose ?? '';
+                    })
                     ->addColumn('vaccine_center', function ($appointment) {
                         return $appointment->vaccineCenter->name ?? '';
                     })
