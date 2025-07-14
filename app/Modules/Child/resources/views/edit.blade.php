@@ -11,9 +11,10 @@
     </style>
 @endsection
 
+
 @section('content')
     {!! Form::open([
-        'route' => 'child.store',
+        'route' => 'child.register.store',
         'method' => 'post',
         'id' => 'form_id',
         'enctype' => 'multipart/form-data',

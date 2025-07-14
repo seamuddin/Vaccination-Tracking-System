@@ -150,7 +150,6 @@
                             <div class="form-group row has-feedback">
                                 <div id="browseimagepp">
                                     <div class="row">
-                                        <input type="hidden" name="id" value="{{ Auth::user()->id }}">
                                         <div class="col-md-12 addImages">
                                             <label class="center-block image-upload" for="user_pic">
                                                 <figure>
@@ -230,88 +229,22 @@
             const resetButton = $('#reset_button');
 
             // Real-time validation
-            nameInput.on('input', validateName);
-            dobInput.on('change', validateDOB);
-            genderSelect.on('change', validateGender);
+            
 
             // Calculate and display age when DOB changes
             dobInput.on('change', calculateAge);
 
             // Form submission
-            form.on('submit', function(e) {
-                if (!validateForm()) {
-                    e.preventDefault();
-                    showErrorMessage('Please correct the errors in the form.');
-                    return false;
-                }
-                
-                // Show loading state
-                submitButton.addClass('btn-loading');
-                submitButton.html('<span class="spinner"></span>Registering...');
-                submitButton.prop('disabled', true);
-            });
+           
 
             // Reset form
             resetButton.on('click', function() {
                 form[0].reset();
                 $('.select2').val(null).trigger('change');
-                clearValidation();
-                hideMessages();
                 $('#ageDisplay').hide();
             });
 
-            function validateName() {
-                const value = nameInput.val().trim();
-                const validation = $('#nameValidation');
-                
-                if (value.length < 2) {
-                    setValidationState(nameInput, validation, false);
-                    return false;
-                } else if (value.length > 100) {
-                    setValidationState(nameInput, validation, false);
-                    return false;
-                } else if (!/^[a-zA-Z\s'-]+$/.test(value)) {
-                    setValidationState(nameInput, validation, false);
-                    return false;
-                } else {
-                    setValidationState(nameInput, validation, true);
-                    return true;
-                }
-            }
-
-            function validateDOB() {
-                const value = dobInput.val();
-                const validation = $('#dobValidation');
-                
-                if (!value) {
-                    setValidationState(dobInput, validation, false);
-                    return false;
-                }
-                
-                const birthDate = new Date(value);
-                const today = new Date();
-                
-                if (birthDate > today) {
-                    setValidationState(dobInput, validation, false);
-                    return false;
-                } else {
-                    setValidationState(dobInput, validation, true);
-                    return true;
-                }
-            }
-
-            function validateGender() {
-                const value = genderSelect.val();
-                const validation = $('#genderValidation');
-                
-                if (!value) {
-                    setValidationState(genderSelect, validation, false);
-                    return false;
-                } else {
-                    setValidationState(genderSelect, validation, true);
-                    return true;
-                }
-            }
+            
 
             function calculateAge() {
                 const birthDate = new Date(dobInput.val());
@@ -347,83 +280,12 @@
                 ageDisplay.show().addClass('visible');
             }
 
-            function setValidationState(input, validationIcon, isValid) {
-                if (isValid) {
-                    input.removeClass('is-invalid').addClass('is-valid');
-                    validationIcon.html('<i class="fas fa-check valid"></i>');
-                } else {
-                    input.removeClass('is-valid').addClass('is-invalid');
-                    validationIcon.html('<i class="fas fa-times invalid"></i>');
-                }
-            }
+           
 
-            function validateForm() {
-                const nameValid = validateName();
-                const dobValid = validateDOB();
-                const genderValid = validateGender();
-                
-                return nameValid && dobValid && genderValid;
-            }
 
-            function clearValidation() {
-                $('input, select').removeClass('is-valid is-invalid');
-                $('.validation-icon').empty();
-            }
+           
 
-            function showSuccessMessage(message) {
-                $('#successText').text(message);
-                $('#successMessage').addClass('show');
-                $('html, body').animate({
-                    scrollTop: $('#successMessage').offset().top - 100
-                }, 500);
-            }
-
-            function showErrorMessage(message) {
-                $('#errorText').text(message);
-                $('#errorMessage').addClass('show');
-                $('html, body').animate({
-                    scrollTop: $('#errorMessage').offset().top - 100
-                }, 500);
-            }
-
-            function hideMessages() {
-                $('#successMessage, #errorMessage').removeClass('show');
-            }
-
-            // Handle form submission success (if coming from server)
-            @if(session('success'))
-                showSuccessMessage('{{ session('success') }}');
-                form[0].reset();
-                $('.select2').val(null).trigger('change');
-                clearValidation();
-                $('#ageDisplay').hide();
-            @endif
-
-            // Handle form submission errors (if coming from server)
-            @if($errors->any())
-                showErrorMessage('Please correct the errors in the form and try again.');
-            @endif
-
-            // Auto-focus on first field
-            nameInput.focus();
-
-            // Keyboard shortcuts
-            $(document).on('keydown', function(e) {
-                if (e.ctrlKey || e.metaKey) {
-                    switch(e.key) {
-                        case 'Enter':
-                            e.preventDefault();
-                            if (validateForm()) {
-                                form.submit();
-                            }
-                            break;
-                        case 'r':
-                            e.preventDefault();
-                            resetButton.click();
-                            break;
-                    }
-                }
-            });
+          
         });
     </script>
 @endsection

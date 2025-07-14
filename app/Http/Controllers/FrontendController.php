@@ -118,6 +118,9 @@ class FrontendController extends Controller
                     DB::rollBack();
                     return redirect()->back()->withErrors(['error' => 'Child not found.']);
                 }
+
+                $child->date_of_birth = $child->date_of_birth;
+
             } else {
                 // Create new child
                 $child = new Child();
@@ -126,6 +129,8 @@ class FrontendController extends Controller
                     $card_no = 'VACC-' . strtoupper(uniqid()) . rand(10000, 99999);
                 } while (Child::where('card_no', $card_no)->exists());
                 $child->card_no = $card_no;
+                $child->date_of_birth = $request->get('dob');
+
             }
 
             // Handle file upload
@@ -150,6 +155,15 @@ class FrontendController extends Controller
                 $child->birth_certificate = null;
             }
 
+            $child->name = $request->get('name');
+            $child->gender = $request->get('gender');
+            $child->parent_id = Auth::user()->id;
+            $child->guardian_name = Auth::user()->name;
+            $child->guardian_contact = Auth::user()->phone ?? null;
+            $child->birth_certificate_no = $request->get('birth_certificate_no');
+            $child->save();
+
+
             if (!empty($request->user_pic_base64)) {
                 $yearMonth = "uploads/children/" . date("Y") . "/" . date("m") . "/";
                 $path_with_dir = config('app.upload_doc_path') . $yearMonth;
@@ -167,7 +181,6 @@ class FrontendController extends Controller
 
             // Store child data
             $child->name = $request->input('name');
-            $child->date_of_birth = $request->input('dob');
             $child->gender = $request->input('gender');
             $child->guardian_name = $user->name;
             $child->guardian_contact = $user->phone ?? null;
@@ -207,6 +220,7 @@ class FrontendController extends Controller
             return redirect()->route('guardian.child.list')->with('success', $isUpdate ? 'Child updated successfully.' : 'Child registered successfully.');
         } catch (Exception $e) {
             DB::rollBack();
+            dd($e->getMessage());
             Log::error("Error occurred in FrontendController@childRegisterStore ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
             return redirect()->back()->withErrors(['error' => 'Unable to register/update child.']);
         }
