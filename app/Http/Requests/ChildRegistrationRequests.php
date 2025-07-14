@@ -24,8 +24,8 @@ class ChildRegistrationRequests extends FormRequest
      */
     public function rules()
     {
-        $childId = $this->input('id');
-
+        $childId = $this->request->get('id');
+        
         return [
             'name' => [
                 'required',
@@ -33,16 +33,16 @@ class ChildRegistrationRequests extends FormRequest
                 'max:255',
                 Rule::unique('children', 'name')->where(function ($query) {
                     return $query->where('parent_id', auth()->id());
-                })->ignore($this->input('id')),
+                })->ignore($childId, 'id'),
             ],
             'dob' => 'required|date|before_or_equal:today',
             'gender' => 'required|in:male,female,other',
             'birth_certificate_no' => [
                 'required',
                 'integer',
-                Rule::unique('children', 'birth_certificate_no')->ignore($childId)
+                Rule::unique('children', 'birth_certificate_no')->ignore($childId, 'id')
             ],
-            'birth_certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:10048',
+            'birth_certificate' => $childId ? 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10048' : 'required|file|mimes:pdf,jpg,jpeg,png|max:10048',
         ];
     }
 

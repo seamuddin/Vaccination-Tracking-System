@@ -30,10 +30,15 @@ Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::group(array('middleware' => ['web', 'auth']), function () {
     Route::get('/guardian_portfolio', [FrontendController::class, 'guardianPortfolio'])->name('guardianPortfolio');
     Route::get('/child/register', [FrontendController::class, 'childRegisterForm'])->name('child.register.form');
+    Route::get('/child/edit/{id}', [FrontendController::class, 'childEdit'])->name('child.edit.form');
+
     Route::post('/child/register', [FrontendController::class, 'childRegisterStore'])->name('child.register.store');
 
     Route::get('/child/profile/{id}', [FrontendController::class, 'childProfile'])->name('child.profile');
 
+    Route::match(['get', 'post'], 'child/schedule/{id}', [FrontendController::class, 'records'])->name('child.vaccine.records');
+    Route::get('/child/{childId}/vaccination-card/print', [FrontendController::class, 'printVaccinationCard'])->name('child.vaccine.print-card');
+    
     Route::get('/child-vaccination-records/{id}', [FrontendController::class, 'childVaccinationRecords'])->name('child.vaccination.records');
     Route::get('/guardian/profile', [FrontendController::class, 'gurdianProfile'])->name('guardian.profile');
     Route::get('/child/list', [FrontendController::class, 'childListDetails'])->name('guardian.child.list');

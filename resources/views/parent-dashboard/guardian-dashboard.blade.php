@@ -55,7 +55,7 @@
                                 <span>
                                     <i class="fas fa-calendar me-1"></i>
                                     {{ $vaccine->status === 'scheduled' ? 'Scheduled:' : ($vaccine->status === 'missed' || $vaccine->status === 'due-soon' ? 'Due:' : 'Recommended:') }}
-                                    {{ \Carbon\Carbon::parse($vaccine->date)->format('F d, Y') }}
+                                    {{ \Carbon\Carbon::parse($vaccine->next_due_date)->format('F d, Y') }}
                                 </span>
                                 @if($vaccine->status === 'overdue')
                                     <span>

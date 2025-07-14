@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ChildRegistrationRequests;
 use Illuminate\Support\Facades\Redirect;
+use App\Libraries\ImageProcessing;
 
 class FrontendController extends Controller
 {
@@ -60,18 +61,19 @@ class FrontendController extends Controller
 
             // Get upcoming vaccines for the children in the next 30 days
             $upcomingVaccines = [];
-            $now = now();
-            $in30Days = now()->addDays(30);
+            $now = Carbon::today();
+            $in30Days = Carbon::today()->addDays(30);
 
             foreach ($children as $child) {
-                // Assuming you have a relationship 'vaccines' on Child model
-                // Assuming you have a relationship 'vaccineRecords' on Child model
-                $vaccineRecords = $child->vaccineRecords()
+                // Fetch vaccine records for each child where next_due_date is within the next 30 days
+                $vaccineRecords = VaccinationRecord::where('child_id', $child->id)
                     ->whereBetween('next_due_date', [$now, $in30Days])
                     ->orderBy('next_due_date', 'asc')
                     ->get();
-                $upcomingVaccines = $vaccineRecords;
 
+                foreach ($vaccineRecords as $record) {
+                    $upcomingVaccines[] = $record;
+                }
             }
 
             
@@ -99,18 +101,39 @@ class FrontendController extends Controller
 
     public function childRegisterStore(ChildRegistrationRequests $request)
     {
-
         try {
             DB::beginTransaction();
 
             $user = auth()->user();
+            $childId = $request->input('id');
+            $isUpdate = !empty($childId);
+
+            if ($isUpdate) {
+                // Update existing child
+                $child = Child::where('id', $childId)
+                    ->where('parent_id', $user->id)
+                    ->first();
+
+                if (!$child) {
+                    DB::rollBack();
+                    return redirect()->back()->withErrors(['error' => 'Child not found.']);
+                }
+            } else {
+                // Create new child
+                $child = new Child();
+                // Generate unique card number
+                do {
+                    $card_no = 'VACC-' . strtoupper(uniqid()) . rand(10000, 99999);
+                } while (Child::where('card_no', $card_no)->exists());
+                $child->card_no = $card_no;
+            }
 
             // Handle file upload
             $folder = 'children_certificate';
             $storagePath = storage_path('app/public/' . $folder);
 
             if (!file_exists($storagePath)) {
-            mkdir($storagePath, 0777, true);
+                mkdir($storagePath, 0777, true);
             }
 
             if ($request->hasFile('birth_certificate')) {
@@ -122,55 +145,89 @@ class FrontendController extends Controller
                 }
                 $file->move($publicPath, $filename);
                 $filePath = 'uploads/' . $folder . '/' . $filename;
-            } else {
-                $filePath = null;
+                $child->birth_certificate = $filePath;
+            } elseif (!$isUpdate) {
+                $child->birth_certificate = null;
             }
 
-            // Generate unique card number
-            do {
-            $card_no = 'VACC-' . strtoupper(uniqid()) . rand(10000, 99999);
-            } while (\App\Modules\Child\Models\Child::where('card_no', $card_no)->exists());
+            if (!empty($request->user_pic_base64)) {
+                $yearMonth = "uploads/children/" . date("Y") . "/" . date("m") . "/";
+                $path_with_dir = config('app.upload_doc_path') . $yearMonth;
+                if (!file_exists($path_with_dir)) {
+                    mkdir($path_with_dir, 0777, true);
+                }
+                $splited = explode(',', substr($request->get('user_pic_base64'), 5), 2);
+                $imageData = $splited[1];
+                $base64ResizeImage = base64_encode(ImageProcessing::resizeBase64Image($imageData, 300, 300));
+                $base64ResizeImage = base64_decode($base64ResizeImage);
+                $user_picture_name = time() . '.' . 'jpeg';
+                file_put_contents($path_with_dir . $user_picture_name, $base64ResizeImage);
+                $child->image = $path_with_dir . $user_picture_name;
+            }
 
             // Store child data
-            $child = new Child();
             $child->name = $request->input('name');
             $child->date_of_birth = $request->input('dob');
             $child->gender = $request->input('gender');
             $child->guardian_name = $user->name;
             $child->guardian_contact = $user->phone ?? null;
             $child->birth_certificate_no = $request->input('birth_certificate_no');
-            $child->birth_certificate = $filePath;
             $child->parent_id = $user->id;
-            $child->card_no = $card_no;
             $child->save();
 
+            // Only create vaccination records if new child
+            if (!$isUpdate) {
             $vaccines = Vaccine::all();
             $birthDate = \Carbon\Carbon::parse($child->date_of_birth);
 
-            foreach ($vaccines as $vaccine) {
-                for ($dose = 1; $dose <= $vaccine->number_of_doses; $dose++) {
-                    $dueDate = $birthDate->copy()->addDays(
-                    $vaccine->age_due_days + ($vaccine->dose_interval_days * ($dose - 1))
-                    );
+            // Only create vaccination records if not updating (new child)
+            if (!$isUpdate) {
+                foreach ($vaccines as $vaccine) {
+                    for ($dose = 1; $dose <= $vaccine->number_of_doses; $dose++) {
+                        $dueDate = $birthDate->copy()->addDays(
+                            $vaccine->age_due_days + ($vaccine->dose_interval_days * ($dose - 1))
+                        );
 
-                    VaccinationRecord::create([
-                    'child_id' => $child->id,
-                    'vaccine_id' => $vaccine->id,
-                    'dose_number' => $dose,
-                    'next_due_date' => $dueDate,
-                    'status' => 'scheduled',
-                    'health_worker_id' => auth()->id(),
-                    ]);
+                        VaccinationRecord::create([
+                            'child_id' => $child->id,
+                            'vaccine_id' => $vaccine->id,
+                            'dose_number' => $dose,
+                            'next_due_date' => $dueDate,
+                            'status' => 'scheduled',
+                            'health_worker_id' => auth()->id(),
+                        ]);
+                    }
                 }
+            }
+            
             }
 
             DB::commit();
 
-            return redirect()->route('guardian.child.list')->with('success', 'Child registered successfully.');
+            return redirect()->route('guardian.child.list')->with('success', $isUpdate ? 'Child updated successfully.' : 'Child registered successfully.');
         } catch (Exception $e) {
             DB::rollBack();
             Log::error("Error occurred in FrontendController@childRegisterStore ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
-            return redirect()->back()->withErrors(['error' => 'Unable to register child.']);
+            return redirect()->back()->withErrors(['error' => 'Unable to register/update child.']);
+        }
+    }
+
+    public function childEdit($id)
+    {
+        try {
+            $user = auth()->user();
+            $child = Child::where('id', $id)
+                ->where('parent_id', $user->id)
+                ->first();
+
+            if (!$child) {
+                return redirect()->back()->withErrors(['error' => 'Child not found.']);
+            }
+
+            return view('parent-dashboard.child-edit', compact('child'));
+        } catch (Exception $e) {
+            Log::error("Error occurred in FrontendController@childEdit ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            return redirect()->back()->withErrors(['error' => 'Unable to retrieve child edit form.']);
         }
     }
 
@@ -279,6 +336,91 @@ class FrontendController extends Controller
     }
 
 
+    public function records(Request $request, $childId)
+    {
+        try {
+            $records = VaccinationRecord::with(['vaccine', 'healthWorker'])
+                    ->where('child_id', $childId)
+                    ->orderBy('next_due_date')
+                    ->get();
+            if ($request->ajax() && $request->isMethod('post')) {
+                
+
+                return DataTables::of($records)
+                    ->addColumn('vaccine_name', function ($record) {
+                        return $record->vaccine->name ?? '';
+                    })
+                    ->addColumn('dose_number', function ($record) {
+                        return $record->dose_number;
+                    })
+                    ->addColumn('next_due_date', function ($record) {
+                        return $record->next_due_date ? Carbon::parse($record->next_due_date)->format('Y-m-d') : '';
+                    })
+                    ->addColumn('status', function ($record) {
+                        $status = strtolower($record->status);
+                        switch ($status) {
+                            case 'scheduled':
+                                $badgeClass = 'badge bg-warning';
+                                break;
+                            case 'given':
+                                $badgeClass = 'badge bg-success';
+                                break;
+                            case 'missed':
+                                $badgeClass = 'badge bg-danger';
+                                break;
+                            default:
+                                $badgeClass = 'badge bg-secondary';
+                                break;
+                        }
+                        return '<span class="' . $badgeClass . '">' . ucfirst($status) . '</span>';
+                    })
+                    ->addColumn('health_worker', function ($record) {
+                        return $record->healthWorker->name ?? '';
+                    })
+                    ->addColumn('vaccination_date', function ($record) {
+                        return $record->date_given ? Carbon::parse($record->date_given)->format('Y-m-d') : 'Not Taken';
+                    })
+                    ->rawColumns(['vaccine_name', 'status'])
+
+                    ->make(true);
+            }
+
+            $child = Child::findOrFail($childId);
+            return view('parent-dashboard.schedule-vaccine', compact('child','records'));
+        } catch (Exception $e) {
+            Log::error("Error occurred in ChildController@records ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            Session::flash('error', "Something went wrong during vaccination records load [Child-201]");
+            return response()->json(['error' => $e->getMessage()], \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function printVaccinationCard($childId)
+    {
+        try {
+            $child = Child::with(['parent'])->findOrFail($childId);
+            
+            $records = VaccinationRecord::with(['vaccine', 'healthWorker'])
+                ->where('child_id', $childId)
+                ->orderBy('next_due_date')
+                ->get();
+
+            $completedVaccines = $records->where('status', 'given');
+            $upcomingVaccines = $records->whereIn('status', ['scheduled', 'pending']);
+            $overdueVaccines = $records->where('status', 'missed');
+
+            return view('parent-dashboard.vaccination-card-print', compact(
+                'child', 
+                'records', 
+                'completedVaccines', 
+                'upcomingVaccines', 
+                'overdueVaccines'
+            ));
+            
+        } catch (Exception $e) {
+            Log::error("Error occurred in ChildController@printVaccinationCard ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            return redirect()->back()->with('error', "Something went wrong during vaccination card generation [Child-202]");
+        }
+    }
 
 
 }

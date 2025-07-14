@@ -21,43 +21,29 @@
         <div class="container">
             <!-- Page Title -->
             <div class="page-form-title">
-                <h2 class="mb-4 text-center">Register New Child</h2>
-                <p class=" text-center page-subtitle">Add a new child to the vaccination tracking system</p>
+                <h2 class="mb-4 text-center">Update Child</h2>
             </div>
-
-            <!-- Info Box -->
-            <div class="info-box mx-auto" style="max-width: 500px;">
-                <h6><i class="fas fa-info-circle me-2"></i>What happens after registration?</h6>
-                <p>Once registered, the system will automatically generate a complete vaccination schedule based on the child's age and current vaccination guidelines.</p>
-            </div>
-
-            <!-- Success Message -->
-            <div class="success-message mx-auto" style="max-width: 500px;" id="successMessage">
-                <i class="fas fa-check-circle"></i>
-                <span id="successText">Child registered successfully! Vaccination schedule has been generated.</span>
-            </div>
-
-            <!-- Error Message -->
-            <div class="error-message mx-auto" style="max-width: 500px;" id="errorMessage">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span id="errorText">Please check the form for errors and try again.</span>
-            </div>
-
+    
             <!-- Registration Form -->
             <div class="card shadow-sm p-4 mx-auto fade-in" style="max-width: 500px;">
-                {!! Form::open([
-                    'route' => 'child.register.store',
+                {!! Form::model($child, [
+                    'route' => ['child.register.store'],
                     'method' => 'post',
                     'id' => 'child-registration-form',
                     'enctype' => 'multipart/form-data',
                     'files' => true,
                     'role' => 'form',
                 ]) !!}
+                    <!-- CSRF Token -->
+
+                   
+                    <input type="hidden" name="id" value="{{ $child->id }}">
+
 
                     <!-- Child's Name -->
                     <div class="form-group mb-3 {{ $errors->has('name') ? 'has-error' : '' }}">
                         {!! Form::label('name', "Child's Name", ['class' => 'form-label required']) !!}
-                        {!! Form::text('name', old('name'), [
+                        {!! Form::text('name', old('name', $child->name), [
                             'class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''),
                             'required' => true,
                             'placeholder' => "Enter child's full name",
@@ -74,11 +60,13 @@
                     <!-- Date of Birth -->
                     <div class="form-group mb-3 {{ $errors->has('dob') ? 'has-error' : '' }}">
                         {!! Form::label('dob', 'Date of Birth', ['class' => 'form-label required']) !!}
-                        {!! Form::date('dob', old('dob'), [
+                        {!! Form::date('dob', old('dob', $child->date_of_birth), [
                             'class' => 'form-control' . ($errors->has('dob') ? ' is-invalid' : ''),
                             'required' => true,
                             'id' => 'dob',
-                            'max' => date('Y-m-d')
+                            'max' => date('Y-m-d'),
+                            'readonly' => true,
+                            'disabled' => true
                         ]) !!}
                         <div class="validation-icon" id="dobValidation"></div>
                         <div class="age-display" id="ageDisplay" style="display: none;">
@@ -100,7 +88,7 @@
                             'male' => 'Male',
                             'female' => 'Female',
                             'other' => 'Other'
-                        ], old('gender'), [
+                        ], old('gender', $child->gender), [
                             'class' => 'form-control select2' . ($errors->has('gender') ? ' is-invalid' : ''),
                             'required' => true,
                             'id' => 'gender'
@@ -116,7 +104,7 @@
                     <!-- Birth Certificate Number -->
                     <div class="form-group mb-3 {{ $errors->has('birth_certificate_no') ? 'has-error' : '' }}">
                         {!! Form::label('birth_certificate_no', 'Birth Certificate Number', ['class' => 'form-label required']) !!}
-                        {!! Form::number('birth_certificate_no', old('birth_certificate_no'), [
+                        {!! Form::number('birth_certificate_no', old('birth_certificate_no', $child->birth_certificate_no), [
                             'class' => 'form-control' . ($errors->has('birth_certificate_no') ? ' is-invalid' : ''),
                             'required' => true,
                             'placeholder' => 'Enter birth certificate number',
@@ -134,10 +122,16 @@
                         {!! Form::label('birth_certificate', 'Birth Certificate (Upload)', ['class' => 'form-label required']) !!}
                         {!! Form::file('birth_certificate', [
                             'class' => 'form-control' . ($errors->has('birth_certificate') ? ' is-invalid' : ''),
-                            'required' => true,
                             'id' => 'birth_certificate',
                             'accept' => '.pdf,.jpg,.jpeg,.png'
                         ]) !!}
+                        @if ($child->birth_certificate)
+                            <div class="mb-2">
+                                <a href="{{ asset($child->birth_certificate) }}" target="_blank" class="text-primary">
+                                    View current file
+                                </a>
+                            </div>
+                        @endif
                         @if ($errors->has('birth_certificate'))
                             <div class="invalid-feedback" style="display:block;">
                                 {{ $errors->first('birth_certificate') }}
@@ -145,22 +139,20 @@
                         @endif
                     </div>
 
-                      <div>
+                    <div>
                         <div class="col-md-12">
                             <div class="form-group row has-feedback">
                                 <div id="browseimagepp">
                                     <div class="row">
-                                        <input type="hidden" name="id" value="{{ Auth::user()->id }}">
                                         <div class="col-md-12 addImages">
                                             <label class="center-block image-upload" for="user_pic">
                                                 <figure>
                                                     <img
-                                                        src="{{ url('images/no_image.png') }}"
+                                                        src="{{ !empty($child->image) ? url($child->image) : url('images/no_image.png') }}"
                                                         class="img-responsive img-thumbnail" id="user_pic_preview"
                                                         width="150px" height="150px">
                                                 </figure>
                                                 <input type="hidden" id="user_pic_base64" name="user_pic_base64" value="">
-                                               
                                             </label>
                                         </div>
                                     </div>
@@ -178,7 +170,7 @@
                                    onchange="imageUploadWithCropping(this, 'user_pic_preview', 'user_pic_base64')"
                                    size="300x300">
                         </div>
-                      </div>
+                    </div>
 
                     <!-- Form Actions -->
                     <div class="d-flex justify-content-between form-actions">
@@ -187,7 +179,7 @@
                             'class' => 'btn btn-outline-secondary',
                             'id' => 'reset_button'
                         ]) !!}
-                        {!! Form::button('<i class="fas fa-user-plus me-2"></i>Register Child', [
+                        {!! Form::button('<i class="fas fa-save me-2"></i>Update Child', [
                             'type' => 'submit',
                             'class' => 'btn btn-primary',
                             'id' => 'submitButton'
@@ -196,11 +188,7 @@
                 {!! Form::close() !!}
             </div>
 
-            <!-- Next Steps Info -->
-            <div class="info-box mx-auto mt-4" style="max-width: 500px;">
-                <h6><i class="fas fa-calendar-check me-2"></i>Next Steps</h6>
-                <p>After registration, you can view the child's profile and vaccination schedule from the Children management section.</p>
-            </div>
+            
         </div>
     </div>
     @include('plugins/image_upload')

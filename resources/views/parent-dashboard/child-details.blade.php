@@ -54,8 +54,17 @@
                 @foreach($children as $child)
                     <div class="child-card {{ ($child->dose_summary['given_count'] ?? 0) == ($child->dose_summary['total_count'] ?? 0) ? '' : 'pending' }}" onclick="">
                         <div class="child-header">
-                            <div class="child-avatar">
-                                {{ strtoupper(substr($child->name,0,1)) }}
+                            <div class="child-avatar-custom">
+                            @if (!empty($child->image))
+                                <div class="avatar h-auto rounded-circle">
+                                    <img src="{{ url($child->image) }}"
+                                        alt class=" "/>
+                                </div>
+                            @else
+                                <div class="text-avatar h2" >
+                                    {{ strtoupper(substr(trim($child->name), 0, 1)) }}
+                                </div>
+                            @endif
                             </div>
                             <div class="child-info">
                                 <h3 class="child-name">{{ $child->name }}</h3>
@@ -92,14 +101,14 @@
                                     </div>
                                 </div>
                                 <div class="child-actions">
-                                    <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); viewVaccineSchedule('{{ $child->id }}')">
+                                    <a href='/child/schedule/{{ $child->id }}' class="btn btn-outline btn-sm" onclick="event.stopPropagation(); viewVaccineSchedule('{{ $child->id }}')">
                                         <i class="fas fa-calendar"></i>
                                         Schedule
-                                    </button>
-                                    <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); bookAppointment('{{ $child->id }}')">
+                                            </a>
+                                    <a href='/child/edit/{{ $child->id }}' class="btn btn-primary btn-sm" onclick="event.stopPropagation(); bookAppointment('{{ $child->id }}')">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                         Update 
-                                    </button>
+                                            </a>
                                 </div>
                             </div>
                         </div>

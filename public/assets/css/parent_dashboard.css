@@ -957,3 +957,24 @@ body {
 .footer-content .h6 {
     color: white !important;
 }
+
+.child-avatar-custom .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+.child-avatar-custom img {
+    border-radius: 50%;
+}
+
+.child-avatar-custom .text-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--light-green);
+    color: var(--bd-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}

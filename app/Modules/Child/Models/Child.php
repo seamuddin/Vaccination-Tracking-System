@@ -79,4 +79,9 @@ class Child extends Model
 
         return $result;
     }
+
+    public function getParentAttribute()
+    {
+        return \App\Modules\User\Models\User::find($this->parent_id);
+    }
 }
