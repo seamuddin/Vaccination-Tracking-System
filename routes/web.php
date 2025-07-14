@@ -45,6 +45,14 @@ Route::group(array('middleware' => ['web', 'auth']), function () {
 
     Route::get('/gurdian/reset-password', [FrontendController::class, 'gurdian_reset_password'])->name('guardian_reset_password');
     Route::post('/gurdian/reset-password', [FrontendController::class, 'gurdian_reset_password_update'])->name('gurdian_reset_password_update');
+
+    Route::match(['get', 'post'], '/notifications', [FrontendController::class, 'notifications'])->name('notifications');
+    // Appointment routes
+    Route::get('/appointments/create', [FrontendController::class, 'createAppointmentForm'])->name('appointments.create.form');
+    Route::post('/appointments/store', [FrontendController::class, 'storeAppointment'])->name('appointments.store');
+    Route::match(['get', 'post'], '/appointments', [FrontendController::class, 'appointments'])->name('appointments');
+
+    Route::get('/doses/by-vaccine', [FrontendController::class, 'getDosesByVaccine'])->name('doses.byVaccine');
 });
 
 Route::get( 'logout', array( LoginController::class, 'logout' ) )->name( 'logout' );

@@ -21,13 +21,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link position-relative" href="notifications.html">
+                        <a href='{{ route("notifications") }}' class="nav-link position-relative">
                             <i class="fas fa-bell me-1"></i>Notifications
-                            <span class="notification-badge">3</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('guardian.profile') }}">
+                        <a class="nav-link" href="{{ route('appointments') }}">
                             <i class="fa-solid fa-calendar-check me-1"></i>
                             Appointments
                         </a>

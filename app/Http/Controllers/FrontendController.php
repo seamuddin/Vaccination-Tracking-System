@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ChildRegistrationRequests;
 use Illuminate\Support\Facades\Redirect;
 use App\Libraries\ImageProcessing;
+use App\Modules\VaccinationCenter\Models\VaccinationCenter;
 
 class FrontendController extends Controller
 {
@@ -200,14 +201,14 @@ class FrontendController extends Controller
                         $dueDate = $birthDate->copy()->addDays(
                             $vaccine->age_due_days + ($vaccine->dose_interval_days * ($dose - 1))
                         );
-
+                        $adminId = DB::table('users')->where('role_id', '1')->first()->id;
                         VaccinationRecord::create([
                             'child_id' => $child->id,
                             'vaccine_id' => $vaccine->id,
                             'dose_number' => $dose,
                             'next_due_date' => $dueDate,
                             'status' => 'scheduled',
-                            'health_worker_id' => auth()->id(),
+                            'health_worker_id' => $adminId,
                         ]);
                     }
                 }
@@ -436,5 +437,223 @@ class FrontendController extends Controller
         }
     }
 
+
+    public function notifications(Request $request)
+    {
+        try {
+            $user = Auth::user();
+
+            // Assuming you have a Notification model with a 'user_id' field
+            // Fetch notifications with related parent, child, and vaccine data, filtered by parent_id
+            $notifications = \App\Models\Notification::with(['parent', 'child', 'vaccine'])
+                ->where('parent_id', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            if ($request->ajax() && $request->isMethod('post')) {
+                return DataTables::of($notifications)
+                    ->addColumn('title', function ($notification) {
+                        return $notification->title ?? '';
+                    })
+                    ->addColumn('message', function ($notification) {
+                        return $notification->message ?? '';
+                    })
+                    ->addColumn('child_name', function ($notification) {
+                        return $notification->child->name ?? '';
+                    })
+                    ->addColumn('vaccine_name', function ($notification) {
+                        return $notification->vaccine->name ?? '';
+                    })
+                    ->addColumn('created_at', function ($notification) {
+                        return $notification->created_at ? Carbon::parse($notification->created_at)->format('Y-m-d H:i') : '';
+                    })
+                    ->addColumn('status', function ($notification) {
+                        $status = $notification->is_read ? 'Read' : 'Unread';
+                        $badgeClass = $notification->is_read ? 'badge bg-success' : 'badge bg-warning';
+                        return '<span class="' . $badgeClass . '">' . $status . '</span>';
+                    })
+                    ->rawColumns(['status'])
+                    ->make(true);
+            }
+
+            return view('parent-dashboard.notifications', compact('notifications'));
+        } catch (Exception $e) {
+            Log::error("Error occurred in FrontendController@notifications ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            return view('parent-dashboard.notifications', ['error' => 'Unable to retrieve notifications.']);
+        }
+    }
+
+    public function appointments(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $appointments = \App\Models\Appointment::with(['child', 'vaccine', 'vaccineCenter'])
+                ->where('created_by', $user->id)
+                ->orderBy('appointment_date', 'desc')
+                ->get();
+
+            if ($request->ajax() && $request->isMethod('post')) {
+                return DataTables::of($appointments)
+                    ->addColumn('child_name', function ($appointment) {
+                        return $appointment->child->name ?? '';
+                    })
+                    ->addColumn('vaccine_name', function ($appointment) {
+                        return $appointment->vaccine->name ?? '';
+                    })
+                    ->addColumn('vaccine_center', function ($appointment) {
+                        return $appointment->vaccineCenter->name ?? '';
+                    })
+                    ->addColumn('appointment_date', function ($appointment) {
+                        return Carbon::parse($appointment->appointment_date)->format('Y-m-d');
+                    })
+                    ->addColumn('status', function ($appointment) {
+                        return ucfirst($appointment->status);
+                    })
+                    ->make(true);
+            }
+
+            return view('parent-dashboard.appointments', compact('appointments'));
+        } catch (Exception $e) {
+            Log::error("Error occurred in FrontendController@appointments ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            return view('parent-dashboard.appointments', ['error' => 'Unable to retrieve appointments.']);
+        }
+    }   
+
+    public function createAppointmentForm()
+    {
+        try {
+            $user = Auth::user();
+            $children = Child::where('parent_id', $user->id)->pluck('name', 'id');
+            $vaccines = Vaccine::pluck('name', 'id');
+            $vaccineCenters = VaccinationCenter::pluck('name', 'id');
+
+
+            return view('parent-dashboard.appointments-create', compact('children', 'vaccines', 'vaccineCenters'));
+        } catch (Exception $e) {
+            Log::error("Error occurred in FrontendController@createAppointmentForm ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            return view('parent-dashboard.appointments-create', ['error' => 'Unable to load appointment creation form.']);
+        }
+    }
+
+    public function getDosesByVaccine(Request $request)
+    {
+        $vaccineId = $request->get('vaccine_id');
+        $response = [];
+
+        if ($vaccineId) {
+            $vaccine = Vaccine::find($vaccineId);
+            if ($vaccine && $vaccine->number_of_doses > 0) {
+                for ($i = 1; $i <= $vaccine->number_of_doses; $i++) {
+                    $response[$i] = "Dose {$i}";
+                }
+            }
+        }
+
+        return response()->json($response);
+    }
+
+    public function storeAppointment(Request $request)
+    {
+        $rules = [
+            'child_id' => [
+            'required',
+            'exists:children,id',
+            // Custom: Ensure child belongs to current user
+            function ($attribute, $value, $fail) {
+                if (!Child::where('id', $value)->where('parent_id', Auth::id())->exists()) {
+                $fail('Selected child does not belong to you.');
+                }
+            }
+            ],
+            'vaccine_id' => 'required|exists:vaccines,id',
+            'dose' => [
+            'required',
+            'integer',
+            'min:1',
+            // Custom: Ensure dose is valid for selected vaccine
+            function ($attribute, $value, $fail) use ($request) {
+                $vaccine = Vaccine::find($request->input('vaccine_id'));
+                if ($vaccine && ($value < 1 || $value > $vaccine->number_of_doses)) {
+                $fail('Invalid dose number for selected vaccine.');
+                }
+            }
+            ],
+            'vaccine_center_id' => 'required|exists:vaccination_centers,id',
+            'appointment_date' => [
+            'required',
+            'date',
+            'after_or_equal:today',
+            // Custom: Prevent duplicate appointment for same child/vaccine/dose/date
+            function ($attribute, $value, $fail) use ($request) {
+                $exists = \App\Models\Appointment::where('child_id', $request->input('child_id'))
+                ->where('vaccine_id', $request->input('vaccine_id'))
+                ->where('dose', $request->input('dose'))
+                ->where('appointment_date', $value)
+                ->exists();
+                if ($exists) {
+                $fail('An appointment for this child, vaccine, dose, and date already exists.');
+                }
+            },
+            function ($attribute, $value, $fail) use ($request) {
+                $childId = $request->input('child_id');
+                $vaccineId = $request->input('vaccine_id');
+                $doseNumber = $request->input('dose');
+                $appointmentDate = Carbon::parse($value);
+
+                $record = VaccinationRecord::where('child_id', $childId)
+                    ->where('vaccine_id', $vaccineId)
+                    ->where('dose_number', $doseNumber)
+                    ->first();
+
+                if ($record) {
+                    $nextDueDate = Carbon::parse($record->next_due_date);
+                    $minDate = $nextDueDate;
+                    $maxDate = $nextDueDate->copy()->addDays(7);
+
+                    if ($appointmentDate->lt($minDate) || $appointmentDate->gt($maxDate)) {
+                        $nextDueDateFormatted = $nextDueDate->format('Y-m-d');
+                        $fail('Appointment date must be within 7 days of the scheduled vaccine date - ('.$nextDueDate.').');
+                    }
+                }
+            }
+            ],
+        ];
+
+        $messages = [
+            'child_id.required' => 'Please select a child.',
+            'child_id.exists' => 'Selected child does not exist.',
+            'vaccine_id.required' => 'Please select a vaccine.',
+            'vaccine_id.exists' => 'Selected vaccine does not exist.',
+            'dose.required' => 'Please select a dose number.',
+            'dose.integer' => 'Dose number must be a valid number.',
+            'dose.min' => 'Dose number must be at least 1.',
+            'vaccine_center_id.required' => 'Please select a vaccination center.',
+            'vaccine_center_id.exists' => 'Selected vaccination center does not exist.',
+            'appointment_date.required' => 'Please select an appointment date.',
+            'appointment_date.date' => 'Appointment date must be a valid date.',
+            'appointment_date.after_or_equal' => 'Appointment date cannot be in the past.',
+        ];
+
+        $request->validate($rules, $messages);
+
+        try {
+            $user = Auth::user();
+
+            $appointment = new \App\Models\Appointment();
+            $appointment->child_id = $request->input('child_id');
+            $appointment->vaccine_id = $request->input('vaccine_id');
+            $appointment->dose = $request->input('dose');
+            $appointment->vaccine_center_id = $request->input('vaccine_center_id');
+            $appointment->appointment_date = $request->input('appointment_date');
+            $appointment->created_by = $user->id;
+            $appointment->status = 'pending';
+            $appointment->save();
+
+            return redirect()->route('appointments')->with('success', 'Appointment created successfully.');
+        } catch (Exception $e) {
+            Log::error("Error occurred in FrontendController@storeAppointment ({$e->getFile()}:{$e->getLine()}): {$e->getMessage()}");
+            return redirect()->back()->withErrors(['error' => 'Unable to create appointment.']);
+        }
+    }
 
 }
